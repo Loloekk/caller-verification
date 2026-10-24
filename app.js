@@ -49,6 +49,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') zamknijPopy(
 $('#animBtn').addEventListener('click', () => toast('Animacja tego scenariusza będzie w kolejnej wersji.'));
 
 /* ---------- strona banku ---------- */
+$('#bankInfolinia').textContent = BANK.infolinia;
 function statusBanku(rodzaj, ikona, tekst) {
   const s = $('#bankStatus');
   s.className = 'status' + (rodzaj ? ' ' + rodzaj : '');
@@ -90,13 +91,13 @@ $('#bankForm').addEventListener('submit', e => {
 
 /* sprawdzenie kodu: w prawdziwym wdrożeniu robi to serwer mObywatela */
 function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
-  if (!kod || kod.uzyty || wpisany !== kod.kod || Date.now() > kod.wygasa) return { stan: 'zly' };
+  if (!kod || kod.uzyty || wpisany !== kod.kod || Date.now() > kod.wygasa) return { stan: 'zly', bank: BANK };
   kod.uzyty = true; clearInterval(licznik);
   const godz = hhmm();
   $('#timer').textContent = 'Wykorzystany o ' + godz;
   if (kod.numer !== numerTelefonu) {
     statusBanku('bad', 'alert', 'Kod wpisano na innym numerze niż ten, pod który dzwonisz. Możliwe oszustwo, sprawa trafi do weryfikacji.');
-    return { stan: 'numer', godz };
+    return { stan: 'numer', godz, bank: BANK };
   }
   if (kod.imie && norm(kod.imie) !== norm(imieWlasciciela)) {
     statusBanku('warn', 'alert', 'Numer zgadza się, ale należy do innej osoby niż Twój klient. Zakończ rozmowę bez podawania szczegółów.');

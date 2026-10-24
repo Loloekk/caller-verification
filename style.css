@@ -150,3 +150,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .tab{font-size:14px;padding-left:12px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* stopka strony banku */
+.bfoot{margin-top:auto;display:flex;align-items:center;gap:8px;padding:16px 32px;border-top:1px solid var(--hair);font-size:14px;color:var(--ink2);background:#fafbfc}
+.bfoot svg{font-size:18px;color:#0b3b6f}
+.bfoot b{color:var(--ink);font-size:15px;letter-spacing:.02em}
+@media (max-width:760px){.bfoot{padding:14px 16px}}

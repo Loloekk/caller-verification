@@ -173,8 +173,7 @@
       doRodzica({ typ: 'wf-sprawdz', id, kod, numer, imie: OS.imie + ' ' + OS.nazwisko });
       setTimeout(() => { if (czekajace[id]) { delete czekajace[id]; res({ stan: 'brak' }); } }, 3000);
     }).then(w => setTimeout(() => {
-      if (w.stan === 'zly') { otworzKod(); sheet.querySelector('#wfCodeErr').textContent = 'Ten kod jest nieprawidłowy albo wygasł. Jeśli rozmówca naciska, rozłącz się.'; return; }
-      wynik(w);
+      wynik(Object.assign({ kod }, w));
     }, Math.max(0, 900 - (Date.now() - start))));
   }
 
@@ -192,6 +191,13 @@
       ${zapis}
       <div class="wf-warn">${ico('shield')}<span>Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.</span></div>
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button><button type="button" class="wf-btn wf-soft" id="wfCall">Wolę oddzwonić na oficjalny numer</button></div>`;
+    else if (w.stan === 'zly') h = `
+      <div class="wf-big bad">${ico('alert')}</div>
+      <h1>To może być oszustwo</h1>
+      <p class="wf-lead">Ten kod nie potwierdza rozmowy. Nie ma go w systemie albo już wygasł.</p>
+      ${wiersze([['Wpisany kod', w.kod.slice(0, 3) + ' ' + w.kod.slice(3)]])}
+      <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. Jeśli rozmówca naciska albo się spieszy, rozłącz się i zadzwoń na infolinię banku.</span></div>
+      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button><button type="button" class="wf-btn wf-soft" id="wfCall">Rozłącz i oddzwoń do banku</button><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
     else if (w.stan === 'numer') h = `
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
@@ -209,7 +215,8 @@
       <p class="wf-lead">Ten telefon jest otwarty bez strony banku. Otwórz pokaz od strony głównej, żeby sprawdzić kod.</p>
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Zamknij</button></div>`;
     sheet.querySelector('.wf-sh-body').outerHTML = `<div class="wf-sh-body wf-result">${h}</div>`;
-    sheet.querySelector('#wfDone').onclick = zamknijArkusz;
+    const dn = sheet.querySelector('#wfDone'); if (dn) dn.onclick = zamknijArkusz;
+    const rt = sheet.querySelector('#wfRetry'); if (rt) rt.onclick = otworzKod;
     const c = sheet.querySelector('#wfCall'); if (c) c.onclick = () => niewspierane('Poza pokazem', `Tu telefon rozłączyłby rozmowę i zadzwonił na infolinię banku: ${b.infolinia || '800 100 100'}.`);
     const r = sheet.querySelector('#wfReport'); if (r) r.onclick = () => niewspierane('Poza pokazem', 'Tu zgłoszenie trafiłoby do CERT Polska i do banku.');
   }
