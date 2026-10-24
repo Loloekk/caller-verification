@@ -192,7 +192,7 @@ function ustawScenariusz(n) {
   $$('.tylko2').forEach(e => { e.hidden = scen !== 2; });
   if (scen === 2 && !ramka2.getAttribute('src')) ramka2.setAttribute('src', ramka2.dataset.src);
   doTelefonu(ramka, { typ: 'wf-tryb', tryb: trybMarty() });
-  try { history.replaceState(null, '', scen === 2 ? '#dwoch-klientow' : '#jeden-klient'); } catch (e) {}
+  try { history.replaceState(null, '', scen === 2 ? '#two-customers' : '#one-customer'); } catch (e) {}
   dopasuj();
 }
 $$('.tab').forEach(t => t.addEventListener('click', () => ustawScenariusz(+t.dataset.scen)));
@@ -254,5 +254,5 @@ dopasujPasek();
 document.fonts && document.fonts.ready.then(dopasujPasek);
 
 ustawTryb('in', true);
-ustawScenariusz(location.hash === '#dwoch-klientow' ? 2 : 1);
+ustawScenariusz(['#two-customers', '#dwoch-klientow'].includes(location.hash) ? 2 : 1);   // stara polska kotwica też działa
 otworzPop($('[data-pop="pop-about"]'));   // po wejściu na stronę od razu widać opis pomysłu
