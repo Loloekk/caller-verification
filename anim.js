@@ -14,6 +14,7 @@
 (function () {
   const NUMER = '600 100 200', OSOBA = 'Marta Kowalska', NUMER_OSZUSTA = '512 300 400';
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
+  const KONIEC_MS = 6000;                  // ostatni dymek i wynik w telefonie zostają na ekranie przed powrotem do stanu początkowego
   const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Brak nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa', mitm: 'Man in the middle' };
   const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
   const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn'), $('#animMitmBtn')];
@@ -53,8 +54,9 @@
   }
 
   // dymek: kto = 'bank', 'oszust' albo 'marta'; leci od mówiącego do słuchającego.
-  // trasa = [skąd, dokąd] spośród miejsc; domyślnie między dzwoniącym a Martą
-  async function dymek(kto, tresc, trasa) {
+  // trasa = [skąd, dokąd] spośród miejsc; domyślnie między dzwoniącym a Martą.
+  // Ostatni dymek rozmowy zostaje na ekranie aż do końca animacji.
+  async function dymek(kto, tresc, trasa, ostatni) {
     if (przerwano) throw new Error('stop');
     const d = document.createElement('div');
     d.className = 'dymek ' + kto;
@@ -86,6 +88,7 @@
       const zapas = setTimeout(dokoncz, LOT_MS + 300);   // gdy przeglądarka wstrzyma klatki, dymek i tak doleci
       stop = () => { koniec = true; cancelAnimationFrame(raf); clearTimeout(zapas); nie(new Error('stop')); };
     });
+    if (ostatni) return;
     await czekaj(POSTOJ_MS);
     d.classList.remove('on');
     setTimeout(() => d.remove(), 500);
@@ -133,8 +136,7 @@
     const kodTxt = $('#codeTxt').textContent;
     await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`);
     await sprawdzWTelefonie(kodTxt);
-    await dymek('marta', r.koniec);
-    await czekaj(800);
+    await dymek('marta', r.koniec, null, true);
   }
 
   async function rozmowaOszusta() {
@@ -145,8 +147,7 @@
     const kodTxt = wymyslony.slice(0, 3) + ' ' + wymyslony.slice(3);
     await dymek('oszust', `Oczywiście. Kod to ${kodTxt}.`);
     await sprawdzWTelefonie(kodTxt);
-    await dymek('marta', 'mObywatel ostrzega, że to może być oszustwo. Kończę rozmowę.');
-    await czekaj(800);
+    await dymek('marta', 'mObywatel ostrzega, że to może być oszustwo. Kończę rozmowę.', null, true);
   }
 
   // oszust zakłada konto na dane Marty i swój numer, dzwoni do Marty jako bank i przekazuje jej kod z banku
@@ -165,8 +166,7 @@
     await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`, ['dzwoniacy', 'posrednik']);
     await dymek('oszust', `Oczywiście. Kod to ${kodTxt}.`, doMarty);
     await sprawdzWTelefonie(kodTxt);
-    await dymek('marta', 'mObywatel ostrzega, że bank wydał ten kod dla innego numeru niż mój. Kończę rozmowę.', ['marta', 'posrednik']);
-    await czekaj(800);
+    await dymek('marta', 'mObywatel ostrzega, że bank wydał ten kod dla innego numeru niż mój. Kończę rozmowę.', ['marta', 'posrednik'], true);
   }
 
   function wyczyscBank(pustePola) {
@@ -210,6 +210,7 @@
       if (rodzaj === 'oszust') await rozmowaOszusta();
       else if (rodzaj === 'mitm') await rozmowaPosrednika();
       else await rozmowaBanku({ beznazwiska: 'bez', zlenazwisko: 'zle' }[rodzaj] || 'ok');
+      await czekaj(KONIEC_MS);
     } catch (e) { /* zatrzymano */ }
     koniec();
   }
