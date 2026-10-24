@@ -7,7 +7,7 @@
 (function () {
   'use strict';
   const app = document.getElementById('app');
-  const NUMERY = { marta: '600100200', jan: '601234567', ewa: '602345678', kacper: '603456789' };
+  const NUMERY = { marta: '600100200', jan: '601234567', ewa: '602345678', kacper: '700100200' };
   const DOPELNIACZ = { marta: 'Marty', jan: 'Jana', ewa: 'Ewy', kacper: 'Kacpra' };
   const numer = NUMERY[OS.id] || NUMERY.marta;
   const fmtNum = d => d.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
