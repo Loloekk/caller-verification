@@ -7,7 +7,7 @@
    Korzysta z funkcji i zmiennych z app.js. */
 (function () {
   const NUMER = '600 100 200', OSOBA = 'Marta Kowalska';
-  const LOT_MS = 4200, POSTOJ_MS = 1600;   // dymki lecą wolno, żeby dało się je przeczytać
+  const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
   let trwa = false, przerwano = false, stop = null, warstwa = null;
   const btn = $('#animBtn'), btnTxt = btn.querySelector('.txt');
 
@@ -94,7 +94,7 @@
     doTelefonu(ramka, { typ: 'wf-demo', krok: 'wyslij' });
     await czekaj(2600);
 
-    await dymek('marta', 'Mam potwierdzenie w mObywatelu. Słucham, w czym mogę pomóc?');
+    await dymek('marta', 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?');
     await czekaj(800);
   }
 
