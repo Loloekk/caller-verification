@@ -183,7 +183,7 @@
   async function start(rodzaj, przycisk) {
     if (trwa) { if (przycisk === aktywny) { przerwano = true; stop && stop(); } return; }
     trwa = true; przerwano = false; aktywny = przycisk;
-    przycisk.querySelector('.txt').textContent = 'Zatrzymaj animację';
+    przycisk.querySelector('.txt').textContent = 'Zatrzymaj';   // krótki napis, żeby pasek nie zwijał przycisków do ikon
     przycisk.classList.add('gra'); przycisk.title = 'Zatrzymaj animację'; przycisk.setAttribute('aria-label', 'Zatrzymaj animację');
     przyciski.forEach(p => { if (p !== przycisk) p.disabled = true; });
     dopasujPasek();
