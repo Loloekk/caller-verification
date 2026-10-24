@@ -96,3 +96,6 @@
 .wf-zadzwon b{display:block;margin-top:2px;font-size:18px;color:var(--ink);letter-spacing:.02em}
 .wf-uwaga{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:var(--warn-wash);color:var(--warn);font-size:15px;font-weight:600;line-height:1.4}
 .wf-uwaga svg{flex:none;width:22px;height:22px;margin-top:1px}
+.wf-wpisany{background:var(--bg);border-radius:18px;padding:12px 16px;margin-bottom:12px;text-align:center}
+.wf-wpisany small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.wf-wpisany b{display:block;font-size:34px;font-weight:700;letter-spacing:.12em;font-variant-numeric:tabular-nums;color:var(--ink);margin-top:2px}

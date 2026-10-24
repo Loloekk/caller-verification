@@ -203,7 +203,7 @@
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
       <p class="wf-lead">Ten kod nie potwierdza rozmowy, więc nie wiemy, kto dzwoni. Kodu nie ma w systemie albo już wygasł.</p>
-      ${wiersze([['Wpisany kod', w.kod.slice(0, 3) + ' ' + w.kod.slice(3)]])}
+      <div class="wf-wpisany"><small>Wpisany kod</small><b>${w.kod.slice(0, 3) + ' ' + w.kod.slice(3)}</b></div>
       <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. ${w.zostalo === 1 ? 'Została ostatnia próba.' : 'Zostały ' + w.zostalo + ' próby.'} Jeśli rozmówca naciska albo się spieszy, zakończ rozmowę.</span></div>
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button>${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
     else if (w.stan === 'wygasl') h = `
