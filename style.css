@@ -182,3 +182,10 @@ body.animacja .tabs{pointer-events:none;opacity:.45}
 .dymek.oszust{background:var(--red-dark);color:#fff;border-bottom-left-radius:6px}
 .anim.bez{background:#9a5a00}
 .anim.bez:hover{background:#7f4a00}
+.anim.zle{background:#5a2d86}
+.anim.zle:hover{background:#4a2470}
+@media (max-width:1400px){
+  .animy .anim .txt{display:none}
+  .animy .anim{padding:9px 12px}
+  .animy .anim.gra .txt{display:inline}
+}

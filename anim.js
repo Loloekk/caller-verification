@@ -4,6 +4,7 @@
    - Pozytywna animacja: konsultantka banku po prośbie o kod wpisuje dane w pustym formularzu,
      tworzy kod i podaje go, a Marta sprawdza go w mObywatelu i dostaje potwierdzenie.
    - Bank bez nazwiska: jak wyżej, ale konsultantka zna tylko numer, więc telefon prosi o upewnienie się, do kogo dzwoni.
+   - Błędne nazwisko: bank ma w kartotece inną osobę, więc telefon mówi, że bank szuka kogoś innego.
    - Animacja oszustwa: dzwoni oszust podający się za bank. Rozmowa jest taka sama, ale oszust nie ma
      dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
    Obie działają z każdej zakładki, na koniec włączają „Jeden klient” i przywracają stan początkowy.
@@ -11,9 +12,9 @@
 (function () {
   const NUMER = '600 100 200', OSOBA = 'Marta Kowalska';
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
-  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Bank bez nazwiska', oszust: 'Animacja oszustwa' };
+  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Bank bez nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa' };
   const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
-  const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animOszustBtn')];
+  const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn')];
   let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null;
 
   // czekanie, które da się przerwać przyciskiem „Zatrzymaj animację”
@@ -89,23 +90,30 @@
     await czekaj(2600);
   }
 
-  // bezNazwiska: bank dzwoni na numer, ale nie zna imienia i nazwiska klienta, więc zostawia to pole puste
-  async function rozmowaBanku(bezNazwiska) {
-    await dymek('bank', bezNazwiska
-      ? 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie zgłoszenia z tego numeru.'
-      : 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.');
+  // wariant: 'ok' (bank zna klienta), 'bez' (bank zna tylko numer, pole nazwiska zostaje puste),
+  // 'zle' (bank ma w kartotece inną osobę, np. poprzedniego właściciela numeru)
+  const INNA_OSOBA = 'Jan Nowak';
+  const ROZMOWA = {
+    ok: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.', nazwisko: OSOBA,
+          koniec: 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?' },
+    bez: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie zgłoszenia z tego numeru.', nazwisko: '',
+           koniec: 'mObywatel potwierdza, że to bank, ale nie zna Pani mojego nazwiska. Do kogo Pani dzwoni?' },
+    zle: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie karty.', nazwisko: INNA_OSOBA,
+           koniec: 'mObywatel mówi, że szuka Pani innej osoby. To pomyłka, ten numer należy teraz do mnie.' }
+  };
+  async function rozmowaBanku(wariant) {
+    const r = ROZMOWA[wariant];
+    await dymek('bank', r.start);
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.');
     await wpisz($('#num'), NUMER);
-    if (!bezNazwiska) await wpisz($('#kto'), OSOBA);
+    if (r.nazwisko) await wpisz($('#kto'), r.nazwisko);
     $('#mkBtn').classList.add('anim-klik'); await czekaj(500); $('#mkBtn').classList.remove('anim-klik');
     $('#bankForm').requestSubmit();
     await czekaj(1200);
     const kodTxt = $('#codeTxt').textContent;
     await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`);
     await sprawdzWTelefonie(kodTxt);
-    await dymek('marta', bezNazwiska
-      ? 'mObywatel potwierdza, że to bank, ale nie zna Pani mojego nazwiska. Do kogo Pani dzwoni?'
-      : 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?');
+    await dymek('marta', r.koniec);
     await czekaj(800);
   }
 
@@ -133,6 +141,7 @@
     if (trwa) { if (przycisk === aktywny) { przerwano = true; stop && stop(); } return; }
     trwa = true; przerwano = false; aktywny = przycisk;
     przycisk.querySelector('.txt').textContent = 'Zatrzymaj animację';
+    przycisk.classList.add('gra'); przycisk.title = 'Zatrzymaj animację'; przycisk.setAttribute('aria-label', 'Zatrzymaj animację');
     przyciski.forEach(p => { if (p !== przycisk) p.disabled = true; });
     typeof zamknijPopy === 'function' && zamknijPopy();
     ustawScenariusz(1);
@@ -154,7 +163,7 @@
       o.innerHTML = '<b>Oszust</b><small>podaje się za konsultantkę banku</small>';
       warstwa.append(o);
     }
-    try { await czekaj(500); await (rodzaj === 'oszust' ? rozmowaOszusta() : rozmowaBanku(rodzaj === 'beznazwiska')); } catch (e) { /* zatrzymano */ }
+    try { await czekaj(500); await (rodzaj === 'oszust' ? rozmowaOszusta() : rozmowaBanku({ beznazwiska: 'bez', zlenazwisko: 'zle' }[rodzaj] || 'ok')); } catch (e) { /* zatrzymano */ }
     koniec();
   }
 
@@ -164,7 +173,11 @@
     warstwa && warstwa.remove(); warstwa = null;
     document.body.classList.remove('animacja');
     document.querySelectorAll('.anim-pisze,.anim-klik').forEach(e => e.classList.remove('anim-pisze', 'anim-klik'));
-    przyciski.forEach(p => { p.disabled = false; p.querySelector('.txt').textContent = NAZWY[p.dataset.rodzaj]; });
+    przyciski.forEach(p => {
+      const n = NAZWY[p.dataset.rodzaj];
+      p.disabled = false; p.classList.remove('gra');
+      p.querySelector('.txt').textContent = n; p.title = n; p.setAttribute('aria-label', n);
+    });
     trwa = false; aktywny = null;
     ustawTryb('in');
     ustawScenariusz(1);
