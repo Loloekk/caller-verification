@@ -31,13 +31,18 @@
   </div>
 </header>
 
-<div class="pop" id="pop-about" role="dialog" aria-label="O prototypie">
-  <h3>Sprawdź, kto dzwoni</h3>
-  <p>Oszuści coraz częściej podszywają się pod banki i instytucje publiczne. Podrabiają numer na wyświetlaczu i brzmią wiarygodnie.</p>
-  <p>Wiele aplikacji bankowych ma już zabezpieczenie: gdy dzwoni Twój bank, wysyła powiadomienie push, które potwierdza, że to on. To nie wystarcza, gdy dzwoni bank, którego aplikacji nie masz, albo urząd. Żeby wysłać takie powiadomienie przez mObywatela, instytucja musiałaby znać dokładne dane odbiorcy, w tym PESEL, aby go poprawnie zidentyfikować.</p>
-  <p>Dlatego odwracamy kierunek. Instytucja zgłasza do mObywatela tylko numer, pod który dzwoni, i dostaje jednorazowy kod. Konsultant podaje go w rozmowie, a klient wpisuje kod w mObywatelu, także bez logowania.</p>
-  <p>mObywatel porównuje numer z kodu z potwierdzonym numerem klienta. Gdy się zgadza, klient widzi, kto dzwoni. Gdy nie, dostaje ostrzeżenie. Instytucja nie otrzymuje żadnych danych klienta.</p>
-  <p>To prototyp na mObywatel Challenge. Osoby, numery i bank są fikcyjne.</p>
+<div class="pop-tlo"></div>
+<div class="pop" id="pop-about" role="dialog" aria-modal="true" aria-labelledby="popTytul">
+  <div class="pop-glowa"><span class="pop-ikona"><svg class="i"><use href="#i-shield"/></svg></span><h3 id="popTytul">Sprawdź, kto dzwoni</h3></div>
+  <div class="pop-tresc">
+    <p>Oszuści coraz częściej podszywają się pod banki i instytucje publiczne. Podrabiają numer na wyświetlaczu i brzmią wiarygodnie.</p>
+    <p>Wiele aplikacji bankowych ma już zabezpieczenie: gdy dzwoni Twój bank, wysyła powiadomienie push, które potwierdza, że to on. To nie wystarcza, gdy nie masz aplikacji swojego banku albo gdy dzwoni do Ciebie inny bank lub urząd. Żeby wysłać takie powiadomienie przez mObywatela, instytucja musiałaby znać dokładne dane odbiorcy, aby poprawnie zidentyfikować urządzenie.</p>
+    <p>Dlatego odwracamy kierunek. Instytucja zgłasza do mObywatela numer, pod który dzwoni, a jeśli zna klienta, także jego imię i nazwisko. W zamian dostaje jednorazowy kod. Konsultant podaje go w rozmowie, a klient wpisuje kod w mObywatelu, także bez logowania.</p>
+    <p>mObywatel porównuje numer z kodu z potwierdzonym numerem klienta. Gdy się zgadza, klient widzi, kto dzwoni. Gdy nie, dostaje ostrzeżenie. Instytucja nie otrzymuje żadnych danych klienta.</p>
+    <p>Podobny mechanizm mObywatel ma już przy potwierdzaniu tożsamości na żywo: jedna osoba pokazuje kod QR, a druga skanuje go w swojej aplikacji. Tutaj kod potwierdza instytucję, a nie osobę, i działa tylko dla numeru, pod który ona dzwoni. Kod przekazany dalej przez oszusta kończy się więc ostrzeżeniem.</p>
+    <p>Animacje w prawym górnym rogu ilustrują różne scenariusze: rozmowę z prawdziwym bankiem, brak albo błąd w nazwisku klienta, oszusta z wymyślonym kodem i atak man in the middle.</p>
+  </div>
+  <div class="pop-stopka"><small>To prototyp na mObywatel Challenge. Osoby, numery i bank są fikcyjne.</small><button type="button" class="pop-zwin">Zwiń</button></div>
 </div>
 
 <main class="stage">

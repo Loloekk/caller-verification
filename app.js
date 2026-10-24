@@ -29,20 +29,50 @@ function toast(t) {
 }
 
 /* ---------- okienka z informacjami ---------- */
+// przesunięcie i skala, które sprowadzają okno do przycisku „i”
+const doPrzycisku = (p, b) => {
+  const r = p.getBoundingClientRect(), c = b.getBoundingClientRect();
+  return `translate(${c.left + c.width / 2 - (r.left + r.width / 2)}px,${c.top + c.height / 2 - (r.top + r.height / 2)}px) scale(.04)`;
+};
+const bezRuchu = () => !Element.prototype.animate || matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// okno wstępu stoi na środku ekranu; po kliknięciu „i” wyrasta z tego przycisku
+function otworzPop(b, zPrzycisku) {
+  const p = document.getElementById(b.dataset.pop);
+  zamknijPopy(b.dataset.pop);
+  p.getAnimations && p.getAnimations().forEach(a => a.cancel());
+  delete p.dataset.zwija;
+  p.classList.add('on'); $('.pop-tlo').classList.add('on'); b.setAttribute('aria-expanded', 'true');
+  if (zPrzycisku && !bezRuchu())
+    p.animate([{ transform: doPrzycisku(p, b), opacity: .2 }, { transform: 'none', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
+}
+// okno kurczy się i wlatuje do przycisku „i”, a przycisk na koniec lekko pulsuje
+function zwinPop(p) {
+  const b = document.querySelector(`[data-pop="${p.id}"]`);
+  b && b.setAttribute('aria-expanded', 'false');
+  $('.pop-tlo').classList.remove('on');
+  if (p.dataset.zwija) return;
+  if (!b || bezRuchu()) { p.classList.remove('on'); return; }
+  p.dataset.zwija = '1';
+  const a = p.animate([{ transform: 'none', opacity: 1 }, { transform: doPrzycisku(p, b), opacity: .2 }],
+    { duration: 480, easing: 'cubic-bezier(.55,0,.8,.2)', fill: 'forwards' });
+  const koniec = () => {
+    if (!p.dataset.zwija) return;
+    p.classList.remove('on'); a.cancel(); delete p.dataset.zwija;
+    b.classList.remove('puls'); void b.offsetWidth; b.classList.add('puls');
+  };
+  a.onfinish = koniec;
+  setTimeout(koniec, 700);   // gdy przeglądarka wstrzyma klatki, okienko i tak się zamknie
+}
 function zamknijPopy(oprocz) {
-  $$('.pop.on').forEach(p => { if (p.id !== oprocz) p.classList.remove('on'); });
-  $$('[data-pop]').forEach(b => { if (b.dataset.pop !== oprocz) b.setAttribute('aria-expanded', 'false'); });
+  $$('.pop.on').forEach(p => { if (p.id !== oprocz) zwinPop(p); });
 }
 $$('[data-pop]').forEach(b => b.addEventListener('click', e => {
   e.stopPropagation();
-  const p = document.getElementById(b.dataset.pop), otwarty = p.classList.contains('on');
-  zamknijPopy(b.dataset.pop);
-  if (otwarty) { p.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); return; }
-  p.classList.add('on'); b.setAttribute('aria-expanded', 'true');
-  const r = b.getBoundingClientRect(), w = p.offsetWidth;
-  p.style.left = Math.max(16, Math.min(r.left - 8, innerWidth - w - 16)) + scrollX + 'px';
-  p.style.top = r.bottom + 10 + scrollY + 'px';
+  const p = document.getElementById(b.dataset.pop);
+  if (p.classList.contains('on') && !p.dataset.zwija) zwinPop(p); else otworzPop(b, true);
 }));
+$$('.pop-zwin').forEach(z => z.addEventListener('click', () => zwinPop(z.closest('.pop'))));
 document.addEventListener('click', e => { if (!e.target.closest('.pop')) zamknijPopy(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') zamknijPopy(); });
 
@@ -225,3 +255,4 @@ document.fonts && document.fonts.ready.then(dopasujPasek);
 
 ustawTryb('in', true);
 ustawScenariusz(location.hash === '#dwoch-klientow' ? 2 : 1);
+otworzPop($('[data-pop="pop-about"]'));   // po wejściu na stronę od razu widać opis pomysłu
