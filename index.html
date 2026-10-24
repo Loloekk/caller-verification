@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sprawdź, kto dzwoni</title>
+<meta name="description" content="Prototyp weryfikacji połączeń od banków i instytucji w aplikacji mObywatel.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <button class="ibtn lg" data-pop="pop-about" aria-label="O prototypie" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
+    <span class="txt">Sprawdź, kto dzwoni</span>
+  </div>
+  <nav class="tabs" aria-label="Scenariusze">
+    <div class="tab on" aria-current="true">
+      <span class="lbl">Pozytywne sprawdzenie</span>
+      <button class="ibtn" data-pop="pop-s1" aria-label="Opis scenariusza Pozytywne sprawdzenie" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
+    </div>
+  </nav>
+  <button class="anim" id="animBtn"><svg class="i"><use href="#i-play"/></svg><span class="txt">Pokaż animację</span></button>
+</header>
+
+<div class="pop" id="pop-about" role="dialog" aria-label="O prototypie">
+  <h3>Sprawdź, kto dzwoni</h3>
+  <p>Gdy bank albo instytucja publiczna dzwoni do klienta, jej system zgłasza do mObywatela numer, pod który dzwoni, i dostaje jednorazowy kod. Konsultant podaje kod w rozmowie, a klient wpisuje go w mObywatelu, także bez logowania.</p>
+  <p>mObywatel porównuje numer z kodu z potwierdzonym numerem klienta. Gdy się zgadza, klient widzi, kto dzwoni. Gdy nie, dostaje ostrzeżenie. Bank nie otrzymuje żadnych danych klienta.</p>
+  <p>To prototyp na mObywatel Challenge. Osoby, numery i bank są fikcyjne.</p>
+</div>
+
+<div class="pop" id="pop-s1" role="dialog" aria-label="Scenariusz: Pozytywne sprawdzenie">
+  <h3>Pozytywne sprawdzenie</h3>
+  <p>Konsultantka Banku Wiślanego dzwoni do Marty Kowalskiej. Marta nie wie, czy to naprawdę bank, więc sprawdza rozmowę w mObywatelu.</p>
+  <ol>
+    <li>W panelu banku kliknij „Utwórz kod”.</li>
+    <li>W telefonie wybierz „Sprawdź, kto dzwoni”.</li>
+    <li>Wpisz kod z panelu banku.</li>
+  </ol>
+  <p style="margin-top:8px">Spróbuj obu wariantów obok telefonu: Marta zalogowana i aplikacja przed zalogowaniem.</p>
+</div>
+
+<main class="stage">
+  <section class="col" aria-label="Panel banku">
+    <p class="label">Bank</p>
+    <div class="bank">
+      <div class="bank-head">
+        <div class="bank-logo"><svg class="i"><use href="#i-bank"/></svg></div>
+        <div><b>Bank Wiślany</b><small>Panel konsultanta · Anna Wiśniewska</small></div>
+      </div>
+      <form class="bank-body" id="bankForm" novalidate>
+        <div class="field">
+          <label for="num">Numer, pod który dzwonisz</label>
+          <input id="num" inputmode="tel" autocomplete="off" value="600 100 200">
+          <div class="err" id="numErr"></div>
+        </div>
+        <div class="field">
+          <label for="kto">Imię i nazwisko klienta</label>
+          <input id="kto" autocomplete="off" value="Marta Kowalska">
+          <div class="hint">Opcjonalnie. Klient zobaczy tylko, czy się zgadza.</div>
+        </div>
+        <button class="btn primary" id="mkBtn" type="submit">Utwórz kod</button>
+        <div id="codeArea" hidden>
+          <div class="codebox" id="codebox">
+            <div class="k">Kod do podania klientowi</div>
+            <div class="code" id="codeTxt">000 000</div>
+            <div class="timer" id="timer">Ważny jeszcze 2:00</div>
+          </div>
+        </div>
+        <div class="status" id="bankStatus"><svg class="i"><use href="#i-info"/></svg><span>Kod działa raz i tylko dla numeru, pod który dzwonisz.</span></div>
+        <p class="note">W prawdziwym wdrożeniu kod tworzy system telefoniczny banku przez API mObywatela. Tutaj panel i telefon działają w jednej stronie.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="col" aria-label="Telefon Marty">
+    <p class="label">Telefon Marty · 600 100 200</p>
+    <div class="phone-wrap" id="phoneWrap">
+      <div class="phone" id="phone">
+        <div class="island"></div>
+        <div class="sbar"><span id="clock">11:20</span><span class="ic"><svg class="i"><use href="#i-signal"/></svg><svg class="i"><use href="#i-wifi"/></svg><svg class="i" style="width:1.6em"><use href="#i-batt"/></svg></span></div>
+        <div id="screen"></div>
+        <div class="sheet" id="sheet" aria-hidden="true"></div>
+        <div class="homebar"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="col who" aria-label="Kto korzysta z telefonu">
+    <p class="label">Stan aplikacji</p>
+    <button class="opt" data-mode="in"><span class="av">MK</span><span><b>Marta Kowalska</b><small>zalogowana w mObywatelu</small></span></button>
+    <button class="opt" data-mode="out"><span class="av lock"><svg class="i"><use href="#i-lock"/></svg></span><span><b>Niezalogowany użytkownik</b><small>aplikacja zablokowana, ekran logowania</small></span></button>
+    <div class="whocard">Numer <b>600 100 200</b> jest potwierdzony SMS-em w profilu Marty. Sprawdzenie działa w obu stanach, bo serwer zna numer przypisany do tego telefonu.</div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.5 12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3.5 20h17"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24"><path d="M4 18v-2M9 18v-5M14 18v-8M19 18V6" stroke-width="2.6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M3.5 9.5a12 12 0 0 1 17 0M6.5 12.8a7.5 7.5 0 0 1 11 0M9.5 16a3 3 0 0 1 5 0" stroke-width="2.2"/><circle cx="12" cy="19" r=".8" fill="currentColor"/></symbol>
+  <symbol id="i-batt" viewBox="0 0 30 24"><rect x="2" y="6" width="22" height="12" rx="3.5"/><rect x="4.5" y="8.5" width="17" height="7" rx="1.5" fill="currentColor" stroke="none"/><path d="M27 10.5v3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5.5c0 4.3 3 8 7 9.5 4-1.5 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/><path d="m15 4 2 2 4-4"/></symbol>
+  <symbol id="i-face" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M9 9v1.5M15 9v1.5M12 9v4h-1M9.5 16a3.5 3.5 0 0 0 5 0"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-bs" viewBox="0 0 24 24"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="m11.5 9.5 5 5M16.5 9.5l-5 5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4.5M12 17.5h.01"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5v-5h-6v5H4z"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><path d="M6 12h.01M12 12h.01M18 12h.01" stroke-width="3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+</svg>
+
+<script src="app.js"></script>
+</body>
+</html>
