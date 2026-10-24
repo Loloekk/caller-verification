@@ -14,6 +14,76 @@
   const wRamce = window.parent !== window;
   let tryb = 'in';
 
+  /* ---------- wersja angielska: teksty tego dodatku, dopisane do słownika prototypu ---------- */
+  if (window.LANG === 'en' && window.I18N) Object.assign(window.I18N, {
+   "Wymaga modelu AI": "Requires an AI model",
+   "Swobodna rozmowa z asystentem nie jest wspierana w tej pracy. Działają przygotowane scenariusze.": "Free conversation with the assistant is not supported in this project. The prepared scenarios work.",
+   "Rozpoznawanie mowy nie jest wspierane w tej pracy. Odtwarzam przykładowe zdanie.": "Speech recognition is not supported in this project. Playing a sample sentence.",
+   "Odczyt zdjęcia nie jest wspierany w tej pracy. Używam przykładowego zdjęcia dowodu rejestracyjnego.": "Reading photos is not supported in this project. Using a sample photo of a vehicle registration certificate.",
+   "Sprawdź, kto dzwoni": "Check who's calling",
+   "Bank albo urząd podał Ci kod w rozmowie": "A bank or office gave you a code during a call",
+   "Zaloguj się, żeby zobaczyć dokumenty": "Log in to see your documents",
+   "Hasło": "Password",
+   "Zaloguj biometrią": "Log in with biometrics",
+   "Zaloguj się": "Log in",
+   "Nie pamiętam hasła": "Forgot password",
+   "Ktoś do Ciebie dzwoni?": "Is someone calling you?",
+   "Sprawdź, czy to naprawdę bank albo urząd. Nie musisz się logować.": "Check whether it really is a bank or an office. You don't need to log in.",
+   "Hasło ma co najmniej {0} znaków. W pokazie możesz też użyć biometrii.": "The password has at least {0} characters. In the demo you can also use biometrics.",
+   "Poza pokazem": "Outside the demo",
+   "Przypomnienie hasła nie jest częścią tej pracy.": "Password recovery is not part of this project.",
+   "Zamknij": "Close",
+   "Wpisz kod od rozmówcy": "Enter the caller's code",
+   "Dzwoniący podaje kod w rozmowie. Sprawdzimy, kto dzwoni i czy na pewno do Ciebie.": "The caller gives you a code during the call. We'll check who is calling and whether the call is really meant for you.",
+   "Tutaj tylko wpisujesz kod usłyszany w rozmowie. Nigdy nikomu nie dyktuj kodów z mObywatela.": "Here you only enter a code you heard during the call. Never read out codes from mObywatel to anyone.",
+   "Usuń cyfrę": "Delete digit",
+   "Sprawdź": "Check",
+   "Wpisz wszystkie {0} cyfr kodu.": "Enter all {0} digits of the code.",
+   "Sprawdzam kod…": "Checking the code…",
+   "Zapisano w historii połączeń": "Saved in call history",
+   "Zakończ rozmowę i zadzwoń na infolinię banku": "End the call and phone the bank's helpline",
+   "Nie wiemy, kto dzwoni. Zakończ rozmowę i nie podawaj żadnych danych.": "We don't know who is calling. End the call and don't share any details.",
+   "Rozmowa potwierdzona": "Call confirmed",
+   "To naprawdę bank i dzwoni właśnie do Ciebie.": "It really is the bank, and it is calling you specifically.",
+   "To naprawdę bank i dzwoni pod Twój numer.": "It really is the bank, and it is calling your number.",
+   "Dzwoni": "Caller",
+   "Bank": "Bank",
+   "Konsultantka": "Consultant",
+   "Anna Wiśniewska": "Anna Wiśniewska",
+   "Twój numer": "Your number",
+   "zgadza się": "matches",
+   "Sprawdzono": "Checked",
+   "dziś, {0}": "today, {0}",
+   "Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.": "The bank received none of your data from mObywatel. It only knows that the call was confirmed.",
+   "Bank nie zna Twojego imienia i nazwiska. Upewnij się, że chciał dodzwonić się właśnie do Ciebie.": "The bank doesn't know your name. Make sure it really meant to reach you.",
+   "Gotowe": "Done",
+   "To może być oszustwo": "This may be a scam",
+   "Ten kod nie potwierdza rozmowy, więc nie wiemy, kto dzwoni. Kodu nie ma w systemie albo już wygasł.": "This code doesn't confirm the call, so we don't know who is calling. The code isn't in the system or has already expired.",
+   "Wpisany kod": "Code entered",
+   "Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. Zostały {0} próby. Jeśli rozmówca naciska albo się spieszy, zakończ rozmowę.": "If you mistyped the code, try again. You have {0} attempts left. If the caller is pushing you or in a hurry, end the call.",
+   "Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. Została ostatnia próba. Jeśli rozmówca naciska albo się spieszy, zakończ rozmowę.": "If you mistyped the code, try again. This is your last attempt. If the caller is pushing you or in a hurry, end the call.",
+   "Spróbuj jeszcze raz": "Try again",
+   "Zgłoś oszustwo": "Report fraud",
+   "Kod wygasł": "Code expired",
+   "Ten kod był prawdziwy, ale jest ważny tylko przez dwie minuty. Poproś rozmówcę o nowy kod.": "This code was genuine, but it is only valid for two minutes. Ask the caller for a new code.",
+   "Wygaśnięcie kodu nie oznacza oszustwa. Jeśli jednak rozmówca naciska, zakończ rozmowę.": "An expired code doesn't mean fraud. But if the caller is pushing you, end the call.",
+   "Wpisz nowy kod": "Enter a new code",
+   "Za dużo błędnych prób": "Too many wrong attempts",
+   "Pięć razy wpisano kod, który nie potwierdza rozmowy. Sprawdzanie jest wstrzymane do {0}.": "A code that doesn't confirm the call was entered five times. Checking is paused until {0}.",
+   "Prawdziwa instytucja nie musi prosić o kolejne próby.": "A real institution has no reason to ask for more attempts.",
+   "Kod wydał bank, ale dla innego numeru telefonu niż Twój. Ktoś mógł przekazać Ci kod od prawdziwego banku.": "The code was issued by a bank, but for a different phone number than yours. Someone may have passed on a code from a real bank.",
+   "Bank szuka innej osoby": "The bank is looking for someone else",
+   "Dzwoni naprawdę bank, ale szuka innej osoby, na przykład poprzedniego właściciela Twojego numeru.": "It really is the bank calling, but it is looking for someone else, for example the previous owner of your number.",
+   "Powiedz konsultantowi, że to pomyłka. Nie podawaj swoich danych.": "Tell the consultant it's a mistake. Don't share your details.",
+   "Brak połączenia z bankiem": "No connection to the bank",
+   "Ten telefon jest otwarty bez strony banku. Otwórz pokaz od strony głównej, żeby sprawdzić kod.": "This phone is open without the bank page. Open the demo from the main page to check the code.",
+   "Tu zgłoszenie trafiłoby do CERT Polska i do banku, który wydał kod.": "Here the report would go to CERT Polska and to the bank that issued the code.",
+   "Tu zgłoszenie trafiłoby do CERT Polska.": "Here the report would go to CERT Polska.",
+   "Telefon z mObywatelem": "Phone with mObywatel",
+   "Wersja bez serwera: skaner widzi znaki otwarte w innych kartach tej przeglądarki.": "Serverless version: the scanner sees signs open in other tabs of this browser.",
+   "Wersja bez serwera: otwórz znak w drugiej karcie tej przeglądarki, na przykład stronę wypożyczalni, a pojawi się tutaj do zeskanowania.": "Serverless version: open a sign in another tab of this browser, for example the rental page, and it will appear here to scan."
+  });
+
   const I = {
     shield: '<path d="M12 3 5 6v5.5c0 4.3 3 8 7 9.5 4-1.5 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
     phone: '<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/><path d="m15 4 2 2 4-4"/>',
@@ -300,5 +370,7 @@
       if (m.krok === 'zamknij') zamknijArkusz();
     }
   });
+  // tłumaczenie z prototypu (i18n.js) trzeba uruchomić; w polskiej wersji funkcji nie ma
+  if (typeof window.__i18nStart === 'function') window.__i18nStart();
   doRodzica({ typ: 'wf-gotowy', osoba: OS.id, imie: OS.imie, nazwisko: OS.nazwisko, plec: OS.plec, dopelniacz: DOPELNIACZ[OS.id] || OS.imie, numer, numerTxt: fmtNum(numer) });
 })();

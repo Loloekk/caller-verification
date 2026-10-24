@@ -6,6 +6,7 @@
 <title>Sprawdź, kto dzwoni</title>
 <meta name="description" content="Prototyp weryfikacji połączeń od banków i instytucji w aplikacji mObywatel.">
 <link rel="stylesheet" href="style.css">
+<script src="telefon/i18n.js"></script>
 </head>
 <body>
 
@@ -29,6 +30,7 @@
     <button class="anim oszust" id="animOszustBtn" data-rodzaj="oszust" title="Animacja oszustwa" aria-label="Animacja oszustwa"><svg class="i"><use href="#i-alert"/></svg><span class="txt">Animacja oszustwa</span></button>
     <button class="anim mitm" id="animMitmBtn" data-rodzaj="mitm" title="Man in the middle" aria-label="Man in the middle"><svg class="i"><use href="#i-mitm"/></svg><span class="txt">Man in the middle</span></button>
   </div>
+  <button type="button" class="ibtn lg jezyk" id="jezykBtn" data-t="0">EN</button>
 </header>
 
 <div class="pop-tlo"></div>
@@ -154,6 +156,7 @@
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
 </svg>
 
+<script src="jezyk.js"></script>
 <script src="app.js"></script>
 <script src="anim.js"></script>
 </body>

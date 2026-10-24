@@ -60,8 +60,9 @@
     if (przerwano) throw new Error('stop');
     const d = document.createElement('div');
     d.className = 'dymek ' + kto;
-    d.innerHTML = `<small>${PODPISY[kto]}</small><span></span>`;
-    d.querySelector('span').textContent = tresc;
+    d.dataset.t = '0';   // tłumaczymy od razu (T z i18n.js), bo zaraz mierzymy wymiary dymka
+    d.innerHTML = `<small>${T(PODPISY[kto])}</small><span></span>`;
+    d.querySelector('span').textContent = T(tresc);
     warstwa.append(d);
     const szer = d.offsetWidth, wys = d.offsetHeight;
     const m = miejsca(szer, wys);
@@ -185,7 +186,7 @@
     przycisk.querySelector('.txt').textContent = 'Zatrzymaj';   // krótki napis, żeby pasek nie zwijał przycisków do ikon
     przycisk.classList.add('gra'); przycisk.title = 'Zatrzymaj animację'; przycisk.setAttribute('aria-label', 'Zatrzymaj animację');
     przyciski.forEach(p => { if (p !== przycisk) p.disabled = true; });
-    dopasujPasek();
+    queueMicrotask(dopasujPasek);   // po przetłumaczeniu napisów
     typeof zamknijPopy === 'function' && zamknijPopy();
     ustawScenariusz(1);
     document.body.classList.add('animacja');
@@ -229,7 +230,7 @@
       p.disabled = false; p.classList.remove('gra');
       p.querySelector('.txt').textContent = n; p.title = n; p.setAttribute('aria-label', n);
     });
-    dopasujPasek();
+    queueMicrotask(dopasujPasek);   // po przetłumaczeniu napisów
     trwa = false; aktywny = null;
     ustawTryb('in');
     ustawScenariusz(1);
