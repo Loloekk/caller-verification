@@ -197,7 +197,7 @@
       ${zapis}
       ${w.znaImie
         ? `<div class="wf-warn">${ico('shield')}<span>Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.</span></div>`
-        : `<div class="wf-uwaga">${ico('user')}<span>Bank nie zna Twojego imienia i nazwiska. Upewnij się, że chciał dodzwonić się właśnie do Ciebie, zanim podasz jakiekolwiek dane.</span></div>`}
+        : `<div class="wf-uwaga">${ico('user')}<span>Bank nie zna Twojego imienia i nazwiska. Upewnij się, że chciał dodzwonić się właśnie do Ciebie.</span></div>`}
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else if (w.stan === 'zly') h = `
       <div class="wf-big bad">${ico('alert')}</div>
