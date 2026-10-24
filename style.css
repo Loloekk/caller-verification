@@ -202,8 +202,8 @@ body.animacja .tabs{pointer-events:none;opacity:.45}
 .anim.bez:hover{background:#7f4a00}
 .anim.zle{background:#5a2d86}
 .anim.zle:hover{background:#4a2470}
-.anim.mitm{background:#0f5f66}
-.anim.mitm:hover{background:#0b4a50}
+.anim.mitm{background:var(--ink)}
+.anim.mitm:hover{background:#2a2c33}
 /* man in the middle: oszust jako telefon między bankiem a Martą */
 body.mitm .phoneside{padding-left:260px}
 @media (max-width:900px){body.mitm .phoneside{padding-left:16px;padding-top:390px}}
