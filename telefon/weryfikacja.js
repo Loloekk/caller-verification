@@ -184,8 +184,8 @@
     faza = 'wynik';
     const b = w.bank || {};
     const zapis = tryb === 'in' ? `<div class="wf-saved">${ico('check')}Zapisano w historii połączeń</div>` : '';
-    // Infolinię banku pokazujemy tylko wtedy, gdy kod potwierdził bank, ale numer albo imię i nazwisko
-    // się nie zgadzają lub bank ich nie podał. Przy nieznanym kodzie nie wiemy, kto dzwoni.
+    // Infolinię banku pokazujemy tylko wtedy, gdy kod wydał bank, ale dla innego numeru (rozmówca może nie być bankiem).
+    // Gdy kod potwierdza rozmowę, rozmawiamy już z bankiem. Przy nieznanym kodzie nie wiemy, kto dzwoni.
     const infolinia = `<div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || ''}</b></span></div>`;
     const nieWiemy = `<div class="wf-zadzwon">${ico('alert')}<span>Nie wiemy, kto dzwoni. Zakończ rozmowę i nie podawaj żadnych danych.</span></div>`;
     let h;
@@ -226,9 +226,10 @@
     else if (w.stan === 'osoba') h = `
       <div class="wf-big warn">${ico('user')}</div>
       <h1>Bank szuka innej osoby</h1>
-      <p class="wf-lead">Dzwoni naprawdę bank, ale do poprzedniego właściciela Twojego numeru. Nie podawaj swoich danych.</p>
+      <p class="wf-lead">Dzwoni naprawdę bank, ale szuka innej osoby, na przykład poprzedniego właściciela Twojego numeru.</p>
       ${wiersze([['Dzwoni', b.nazwa], [b.rola, b.pracownik]])}
-      <div class="wf-btns">${infolinia}<button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
+      <div class="wf-uwaga">${ico('user')}<span>Powiedz konsultantowi, że to pomyłka. Nie podawaj swoich danych.</span></div>
+      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else h = `
       <div class="wf-big warn">${ico('alert')}</div>
       <h1>Brak połączenia z bankiem</h1>
