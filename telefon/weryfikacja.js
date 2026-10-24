@@ -187,6 +187,7 @@
     // Infolinię banku pokazujemy tylko wtedy, gdy kod potwierdził bank, ale numer albo imię i nazwisko
     // się nie zgadzają lub bank ich nie podał. Przy nieznanym kodzie nie wiemy, kto dzwoni.
     const infolinia = `<div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || ''}</b></span></div>`;
+    const infoliniaSpokojnie = `<div class="wf-zadzwon wf-spokojnie">${ico('phone')}<span>Jeśli nie ufasz tej rozmowie, zakończ ją i zadzwoń na infolinię banku<b>${b.infolinia || ''}</b></span></div>`;
     const nieWiemy = `<div class="wf-zadzwon">${ico('alert')}<span>Nie wiemy, kto dzwoni. Zakończ rozmowę i nie podawaj żadnych danych.</span></div>`;
     let h;
     if (w.stan === 'ok') h = `
@@ -196,7 +197,7 @@
       ${wiersze([['Dzwoni', b.nazwa], [b.rola, b.pracownik], ['Twój numer', 'zgadza się'], ['Sprawdzono', 'dziś, ' + w.godz]])}
       ${zapis}
       <div class="wf-warn">${ico('shield')}<span>${w.znaImie ? 'Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.' : 'Bank nie zna Twojego imienia i nazwiska. Wie tylko, pod jaki numer dzwoni, a mObywatel nie przekazał mu żadnych Twoich danych.'}</span></div>
-      <div class="wf-btns">${w.znaImie ? '' : infolinia}<button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
+      <div class="wf-btns">${w.znaImie ? '' : infoliniaSpokojnie}<button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else if (w.stan === 'zly') h = `
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
