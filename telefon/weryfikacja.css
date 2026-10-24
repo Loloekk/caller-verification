@@ -1,0 +1,88 @@
+/* Sprawdź, kto dzwoni: style dodatku. Kolory i zmienne pochodzą ze style.css prototypu. */
+.wf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* wiersz na ekranie głównym, w stylu paska spraw (.rsum) */
+.wf-kto{margin:0 auto 10px;width:calc(100% - 32px)}
+.wf-ki{flex:none;width:30px;height:30px;border-radius:9px;background:var(--red-wash);color:var(--red);display:grid;place-items:center}
+.wf-ki svg{width:18px;height:18px}
+
+/* ekran logowania */
+.wf-lock{position:absolute;inset:0;z-index:86;background:var(--bg);display:flex;flex-direction:column;padding:56px 24px 30px;opacity:0;pointer-events:none;transition:opacity .25s}
+.wf-lock.on{opacity:1;pointer-events:auto}
+.wf-appicon{width:64px;height:64px;border-radius:18px;background:var(--red);color:#fff;display:grid;place-items:center;margin:0 auto 14px}
+.wf-appicon svg{width:34px;height:34px}
+.wf-lock h1{text-align:center;font-size:26px;margin:0 0 4px;letter-spacing:-.02em}
+.wf-sub{text-align:center;color:var(--ink2);margin:0 0 22px;font-size:15px}
+.wf-pw{display:flex;align-items:center;gap:8px;height:52px;border-radius:14px;background:var(--surface);padding:0 6px 0 16px;box-shadow:0 1px 2px rgba(15,25,60,.06)}
+.wf-pw input{flex:1;min-width:0;border:0;outline:none;background:none;font:inherit;font-size:17px;color:var(--ink)}
+.wf-ibtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--ink2)}
+.wf-ibtn svg{width:22px;height:22px}
+.wf-ibtn.wf-lg{width:34px;height:34px;background:var(--bg)}
+.wf-ibtn.wf-lg svg{width:18px;height:18px}
+.wf-err{min-height:18px;margin:6px 4px 0;font-size:13px;color:var(--red-dark)}
+.wf-btn{font:inherit;font-weight:600;border-radius:16px;width:100%}
+.wf-red{height:52px;background:var(--red);color:#fff;font-size:17px;margin-top:6px}
+.wf-link{align-self:center;padding:12px;font-weight:600;font-size:15px;color:var(--red-dark)}
+.wf-callcard{margin-top:auto;background:var(--surface);border-radius:20px;padding:16px;box-shadow:0 1px 2px rgba(15,25,60,.06),0 12px 30px -14px rgba(15,25,60,.25)}
+.wf-h{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.wf-ico{flex:none;width:44px;height:44px;border-radius:14px;background:var(--red-wash);color:var(--red-dark);display:grid;place-items:center}
+.wf-ico svg{width:24px;height:24px}
+.wf-h b{display:block;font-size:17px}
+.wf-h small{display:block;color:var(--ink2);font-size:14px;line-height:1.35}
+.wf-outline{height:48px;border:1.5px solid var(--red);color:var(--red-dark);font-size:16px}
+
+/* arkusz: kod i wynik */
+.wf-sheet{position:absolute;inset:0;z-index:88;background:var(--surface);display:flex;flex-direction:column;padding-top:12px;transform:translateY(100%);transition:transform .38s var(--ease)}
+.wf-sheet.on{transform:none}
+.wf-sh-top{display:flex;align-items:center;justify-content:space-between;padding:4px 16px}
+.wf-sh-top b{font-size:17px}
+.wf-sh-body{flex:1;display:flex;flex-direction:column;padding:8px 24px 24px;min-height:0}
+.wf-sh-body h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 6px}
+.wf-lead{color:var(--ink2);font-size:15px;line-height:1.45;margin:0 0 18px}
+.wf-digits{display:flex;gap:8px;justify-content:center;margin:4px 0}
+.wf-digits span{width:44px;height:56px;border-radius:12px;background:var(--bg);display:grid;place-items:center;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;border:2px solid transparent}
+.wf-digits span.cur{border-color:var(--red)}
+.wf-digits i{width:6px}
+.wf-codeerr{min-height:38px;text-align:center;font-size:14px;color:var(--red-dark);line-height:1.4;margin-top:6px}
+.wf-warn{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink2);background:var(--bg);border-radius:12px;padding:10px 12px;line-height:1.4}
+.wf-warn svg{flex:none;width:16px;height:16px;margin-top:1px;color:var(--red-dark)}
+.wf-keypad{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:12px}
+.wf-keypad button{height:56px;border-radius:14px;background:var(--bg);font:inherit;font-size:26px;font-weight:500;color:var(--ink)}
+.wf-keypad button:active{background:var(--hair)}
+.wf-bs{display:grid;place-items:center}
+.wf-bs svg{width:24px;height:24px}
+.wf-go{margin-top:10px;height:54px;background:var(--red);color:#fff;font-size:17px}
+.wf-go[aria-disabled="true"]{opacity:.45}
+.wf-checking{align-items:center;justify-content:center;text-align:center;gap:16px;color:var(--ink2)}
+.wf-spin{width:44px;height:44px;border-radius:50%;border:4px solid var(--hair);border-top-color:var(--red);animation:wfspin .8s linear infinite}
+@keyframes wfspin{to{transform:rotate(360deg)}}
+.wf-big{width:84px;height:84px;border-radius:50%;margin:24px auto 14px;display:grid;place-items:center}
+.wf-big svg{width:44px;height:44px}
+.wf-big.ok{background:var(--ok-wash);color:var(--ok)}
+.wf-big.bad{background:var(--red-wash);color:var(--red-dark)}
+.wf-big.warn{background:var(--warn-wash);color:var(--warn)}
+.wf-result h1,.wf-result .wf-lead{text-align:center}
+.wf-rows{background:var(--bg);border-radius:18px;padding:4px 16px;margin-bottom:12px}
+.wf-rows div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:15px}
+.wf-rows div:last-child{border-bottom:0}
+.wf-rows span{color:var(--ink2)}
+.wf-saved{display:flex;gap:6px;align-items:center;justify-content:center;font-size:13px;color:var(--ink2);margin:-2px 0 12px}
+.wf-saved svg{width:15px;height:15px}
+.wf-btns{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:12px}
+.wf-dark{height:54px;background:var(--ink);color:#fff;font-size:17px}
+.wf-soft{height:50px;background:var(--bg);font-size:16px;color:var(--ink)}
+.wf-result .wf-red{margin-top:0}
+
+/* oznaczenie: funkcja wymaga modelu AI */
+.wf-nota{position:absolute;left:12px;right:12px;top:62px;z-index:97;display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:#1c1d22;color:#fff;
+  box-shadow:0 12px 30px -10px rgba(10,12,18,.5);opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .2s,transform .3s var(--ease)}
+.wf-nota.on{opacity:1;transform:none}
+.wf-nota-ic{flex:none;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.wf-nota-ic svg{width:18px;height:18px}
+.wf-nota b{display:block;font-size:14px}
+.wf-nota small{display:block;font-size:13px;line-height:1.4;color:rgba(255,255,255,.75)}
+
+/* skaner znaku bez serwera */
+.wf-sym{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.wf-sym button{font:inherit;font-size:15px;font-weight:600;padding:13px 14px;border-radius:14px;background:#fff;color:var(--ink);text-align:left}
+.wf-sym small{font-size:12.5px;line-height:1.4;opacity:.75}

@@ -80,24 +80,25 @@
   </section>
 
   <section class="phoneside">
-  <section class="col" aria-label="Telefon Marty">
-    <p class="label">Telefon Marty · 600 100 200</p>
+  <section class="col" aria-label="Telefon">
+    <p class="label" id="telLabel">Telefon Marty · 600 100 200</p>
     <div class="phone-wrap" id="phoneWrap">
       <div class="phone" id="phone">
         <div class="island"></div>
         <div class="sbar"><span id="clock">11:20</span><span class="ic"><svg class="i"><use href="#i-signal"/></svg><svg class="i"><use href="#i-wifi"/></svg><svg class="i" style="width:1.6em"><use href="#i-batt"/></svg></span></div>
-        <div id="screen"></div>
-        <div class="sheet" id="sheet" aria-hidden="true"></div>
+        <iframe id="telefon" class="tel-frame" src="telefon/index.html?osoba=marta&amp;uklad=stos" title="Aplikacja mObywatel na telefonie" allow="camera; microphone"></iframe>
         <div class="homebar"></div>
       </div>
     </div>
   </section>
 
-  <section class="col who" aria-label="Kto korzysta z telefonu">
+  <section class="col who" aria-label="Stan aplikacji">
     <p class="label">Stan aplikacji</p>
-    <button class="opt" data-mode="in"><span class="av">MK</span><span><b>Marta Kowalska</b><small>zalogowana w mObywatelu</small></span></button>
-    <button class="opt" data-mode="out"><span class="av lock"><svg class="i"><use href="#i-lock"/></svg></span><span><b>Niezalogowany użytkownik</b><small>aplikacja wcześniej połączona z telefonem Marty</small></span></button>
-    <div class="whocard">Numer <b>600 100 200</b> jest potwierdzony SMS-em w profilu Marty. Sprawdzenie działa w obu stanach, bo serwer zna numer przypisany do tego telefonu.</div>
+    <button class="opt" data-mode="in"><span class="av" id="whoAv">MK</span><span><b id="whoName">Marta Kowalska</b><small id="whoIn">zalogowana w mObywatelu</small></span></button>
+    <button class="opt" data-mode="out"><span class="av lock"><svg class="i"><use href="#i-lock"/></svg></span><span><b>Niezalogowany użytkownik</b><small id="whoOut">aplikacja wcześniej połączona z telefonem Marty</small></span></button>
+    <div class="whocard" id="whoCard">Numer <b>600 100 200</b> jest potwierdzony SMS-em w profilu Marty. Sprawdzenie działa w obu stanach, bo serwer zna numer przypisany do tego telefonu.</div>
+    <div class="whocard">Osobę zmienisz w aplikacji: dotknij „Dokumenty” u góry ekranu. Funkcje wymagające modelu AI są oznaczone jako niewspierane.</div>
+    <a class="whocard wlink" href="telefon/komputer.html" target="_blank" rel="noopener">Otwórz stronę wypożyczalni w nowej karcie, żeby przekazać jej dane znakiem mObywatela.</a>
   </section>
   </section>
 </main>

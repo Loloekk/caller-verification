@@ -22,8 +22,11 @@ SOFTWARE.
 
 ---
 
-Parts of the styles (color palette and phone frame) are based on the
-mobywatel.ai prototype, distributed under the following license:
+The telefon/ folder contains code copied from the mobywatel.ai prototype
+(HTML, CSS, JavaScript and interface dictionaries), with modifications.
+The graphics in telefon/assets/ were made for this project and replace the
+original ones, which are not covered by the license below.
+The prototype code is distributed under the following license:
 
 MIT License
 
