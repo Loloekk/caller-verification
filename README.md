@@ -18,6 +18,8 @@ The verification goes the other way round:
 
 A code issued for a different number ends with a fraud warning, and the bank is notified. This means a scammer cannot pass a code from a real bank on to a victim.
 
+In the future, private companies such as insurers, telecom operators or energy suppliers could also use the mechanism. This would require vetting by the state and the option to revoke access in case of abuse.
+
 ## Repository contents
 
 - `index.html`, `style.css`, `app.js`: the demo page, with the bank's system on the left and the phone on the right. An intro window explaining the idea opens on load.
