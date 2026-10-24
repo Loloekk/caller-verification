@@ -278,7 +278,7 @@
       <p class="wf-lead">Ten kod nie potwierdza rozmowy, więc nie wiemy, kto dzwoni. Kodu nie ma w systemie albo już wygasł.</p>
       <div class="wf-wpisany"><small>Wpisany kod</small><b>${w.kod.slice(0, 3) + ' ' + w.kod.slice(3)}</b></div>
       <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. ${w.zostalo === 1 ? 'Została ostatnia próba.' : 'Zostały ' + w.zostalo + ' próby.'} Jeśli rozmówca naciska albo się spieszy, zakończ rozmowę.</span></div>
-      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button>${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
+      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button>${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'wygasl') h = `
       <div class="wf-big warn">${ico('clock')}</div>
       <h1>Kod wygasł</h1>
