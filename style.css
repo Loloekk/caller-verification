@@ -201,9 +201,13 @@ body.mitm .phoneside{padding-left:260px}
 .anim-mitm small{font-size:13px;line-height:1.3;opacity:.85}
 .anim-mitm .nr{margin-top:6px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.15);font-size:14px;font-weight:700;letter-spacing:.04em}
 /* gdy napisy nie mieszczą się w pasku, przyciski pokazują same ikony (klasę ustawia dopasujPasek w app.js) */
-body.ikony .animy .anim .txt{display:none}
-body.ikony .animy .anim{padding:9px 12px}
-body.ikony .animy .anim.gra .txt{display:inline}
-@media (max-width:760px){body.ikony .animy .anim.gra .txt{display:none}}
+/* najechany przycisk rozwija się i pokazuje swój napis */
+body.ikony .animy .anim{gap:0;padding:9px 12px}
+body.ikony .animy .anim .txt{display:inline-block;max-width:0;margin-left:0;opacity:0;overflow:hidden;vertical-align:bottom;
+  transition:max-width .25s var(--ease),margin-left .25s var(--ease),opacity .2s}
+body.ikony .animy .anim.gra .txt{max-width:200px;margin-left:6px;opacity:1}
+@media (hover:hover){body.ikony .animy .anim:not([disabled]):hover .txt{max-width:200px;margin-left:6px;opacity:1}}
+body.ikony .animy .anim:focus-visible .txt{max-width:200px;margin-left:6px;opacity:1}
+@media (max-width:760px){body.ikony .animy .anim.gra .txt{max-width:0;margin-left:0;opacity:0}}
 #animBtn{background:var(--ok)}
 #animBtn:hover{background:#256528}
