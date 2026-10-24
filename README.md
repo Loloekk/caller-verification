@@ -28,7 +28,7 @@ Kod wydany dla innego numeru kończy się ostrzeżeniem o oszustwie. Dzięki tem
 
 ## Uruchomienie
 
-To strona statyczna bez zależności. Można ją opublikować na GitHub Pages albo uruchomić lokalnie dowolnym serwerem plików, na przykład:
+To strona statyczna bez zależności. Można ją uruchomić lokalnie dowolnym serwerem plików, na przykład:
 
 ```bash
 python3 -m http.server 8000
