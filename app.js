@@ -135,7 +135,7 @@ function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
     return { stan: 'osoba', godz, bank: BANK };
   }
   statusBanku('ok', 'check', 'Klient potwierdził rozmowę o ' + godz + '. Nie otrzymujesz żadnych jego danych.');
-  return { stan: 'ok', godz, bank: BANK };
+  return { stan: 'ok', godz, bank: BANK, znaImie: !!kod.imie };
 }
 
 /* ---------- telefony w ramkach ---------- */
