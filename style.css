@@ -189,3 +189,5 @@ body.animacja .tabs{pointer-events:none;opacity:.45}
   .animy .anim{padding:9px 12px}
   .animy .anim.gra .txt{display:inline}
 }
+#animBtn{background:var(--ok)}
+#animBtn:hover{background:#256528}

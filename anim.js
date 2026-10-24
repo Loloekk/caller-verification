@@ -3,7 +3,7 @@
 /* Animacje rozmowy. Wypowiedzi przelatują w dużych dymkach między stroną banku a telefonem Marty.
    - Pozytywna animacja: konsultantka banku po prośbie o kod wpisuje dane w pustym formularzu,
      tworzy kod i podaje go, a Marta sprawdza go w mObywatelu i dostaje potwierdzenie.
-   - Bank bez nazwiska: jak wyżej, ale konsultantka zna tylko numer, więc telefon prosi o upewnienie się, do kogo dzwoni.
+   - Brak nazwiska: jak wyżej, ale konsultantka zna tylko numer, więc telefon prosi o upewnienie się, do kogo dzwoni.
    - Błędne nazwisko: bank ma w kartotece inną osobę, więc telefon mówi, że bank szuka kogoś innego.
    - Animacja oszustwa: dzwoni oszust podający się za bank. Rozmowa jest taka sama, ale oszust nie ma
      dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
@@ -12,7 +12,7 @@
 (function () {
   const NUMER = '600 100 200', OSOBA = 'Marta Kowalska';
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
-  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Bank bez nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa' };
+  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Brak nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa' };
   const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
   const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn')];
   let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null;

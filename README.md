@@ -42,7 +42,7 @@ python3 -m http.server 8000
 Cztery przyciski animacji działają z każdej zakładki i na końcu włączają zakładkę „Jeden klient”:
 
 - **Pozytywna animacja:** rozmowa konsultantki z Martą w dymkach, wpisanie danych w systemie banku, podanie kodu i potwierdzenie w telefonie.
-- **Bank bez nazwiska:** bank zna tylko numer Marty, więc nie wpisuje imienia i nazwiska. Telefon potwierdza bank, ale prosi o upewnienie się, do kogo dzwoni.
+- **Brak nazwiska:** bank zna tylko numer Marty, więc nie wpisuje imienia i nazwiska. Telefon potwierdza bank, ale prosi o upewnienie się, do kogo dzwoni.
 - **Błędne nazwisko:** bank ma w kartotece inną osobę, na przykład poprzedniego właściciela numeru. Telefon pokazuje, że bank szuka kogoś innego.
 - **Animacja oszustwa:** ta sama rozmowa, ale dzwoni oszust. Nie ma dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
 
