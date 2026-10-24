@@ -106,8 +106,10 @@
   lock.querySelector('#wfCheck').onclick = otworzKod;
 
   function ustawTryb(t) {
-    tryb = t === 'out' ? 'out' : 'in';
+    const nowy = t === 'out' ? 'out' : 'in', zmiana = nowy !== tryb;
+    tryb = nowy;
     lock.classList.toggle('on', tryb === 'out'); lock.setAttribute('aria-hidden', tryb !== 'out');
+    if (!zmiana) return;   // ten sam stan: nie zamykamy otwartego wyniku
     if (tryb === 'out') { lock.querySelector('#wfPw').value = ''; lock.querySelector('#wfPwErr').textContent = ''; }
     zamknijArkusz();
   }
@@ -276,6 +278,13 @@
     if (m.zrodlo !== 'bank') return;
     if (m.typ === 'wf-tryb') ustawTryb(m.tryb);
     if (m.typ === 'wf-wynik' && czekajace[m.id]) { czekajace[m.id](m.wynik); delete czekajace[m.id]; }
+    // animacja rozmowy na stronie pokazu steruje telefonem: otwiera sprawdzanie, wpisuje cyfry, wysyła kod
+    if (m.typ === 'wf-demo') {
+      if (m.krok === 'otworz') otworzKod();
+      if (m.krok === 'cyfra') klawisz(String(m.c));
+      if (m.krok === 'wyslij') wyslij();
+      if (m.krok === 'zamknij') zamknijArkusz();
+    }
   });
   doRodzica({ typ: 'wf-gotowy', osoba: OS.id, imie: OS.imie, nazwisko: OS.nazwisko, plec: OS.plec, dopelniacz: DOPELNIACZ[OS.id] || OS.imie, numer, numerTxt: fmtNum(numer) });
 })();

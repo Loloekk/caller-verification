@@ -154,3 +154,18 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .bfoot svg{font-size:18px;color:#0b3b6f}
 .bfoot b{color:var(--ink);font-size:15px;letter-spacing:.02em}
 @media (max-width:760px){.bfoot{padding:14px 16px}}
+
+/* animacja rozmowy */
+body.animacja .who,body.animacja .tylko2{display:none!important}
+body.animacja .stage{pointer-events:none}
+body.animacja .tabs{pointer-events:none;opacity:.45}
+.anim-warstwa{position:absolute;left:0;top:0;width:100%;z-index:45;pointer-events:none}
+.dymek{position:absolute;width:max-content;max-width:340px;padding:14px 18px;border-radius:22px;font-size:18px;line-height:1.35;font-weight:600;
+  transform:translate(-50%,-50%) scale(.9);opacity:0;transition:opacity .35s,transform .35s;box-shadow:0 14px 36px -12px rgba(15,25,60,.45)}
+.dymek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.dymek small{display:block;margin-bottom:4px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.dymek.bank{background:#0b3b6f;color:#fff;border-bottom-left-radius:6px}
+.dymek.marta{background:var(--surface);color:var(--ink);border:2px solid var(--red);border-bottom-right-radius:6px}
+.dymek.marta small{color:var(--red-dark);opacity:1}
+.anim-pisze{border-color:var(--blue)!important;background:#fff!important;box-shadow:0 0 0 3px var(--blue-wash)!important}
+.anim-klik{transform:scale(.96);box-shadow:0 0 0 4px rgba(11,59,111,.25)}

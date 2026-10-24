@@ -46,7 +46,6 @@ $$('[data-pop]').forEach(b => b.addEventListener('click', e => {
 document.addEventListener('click', e => { if (!e.target.closest('.pop')) zamknijPopy(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') zamknijPopy(); });
 
-$('#animBtn').addEventListener('click', () => toast('Animacja tego scenariusza będzie w kolejnej wersji.'));
 
 /* ---------- strona banku ---------- */
 $('#bankInfolinia').textContent = BANK.infolinia;
