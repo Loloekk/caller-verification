@@ -98,7 +98,7 @@ const kodAktywnyDla = numer => kod && !kod.uzyty && Date.now() <= kod.wygasa && 
 
 function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
   const p = proby[numerTelefonu] = proby[numerTelefonu] || { n: 0, do: 0 };
-  if (p.do > Date.now()) return { stan: 'blokada', do: godzOd(p.do), bank: BANK };
+  if (p.do > Date.now()) return { stan: 'blokada', do: godzOd(p.do) };
 
   // prawdziwy kod, ale po czasie: to nie oszustwo, wystarczy nowy kod.
   // Rozpoznajemy go tylko przez 10 minut po wygaśnięciu i tylko raz; potem liczy się jak błędny kod.
@@ -116,10 +116,10 @@ function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
     if (p.n >= LIMIT_PROB) {
       p.n = 0; p.do = Date.now() + BLOKADA_MIN * 60000;
       if (czeka) statusBanku('bad', 'alert', `Klient ${LIMIT_PROB} razy wpisał błędny kod. Sprawdzanie na tym numerze jest wstrzymane do ${godzOd(p.do)}.`);
-      return { stan: 'blokada', do: godzOd(p.do), bank: BANK };
+      return { stan: 'blokada', do: godzOd(p.do) };
     }
     if (czeka) statusBanku('warn', 'alert', `Klient wpisał błędny kod (próba ${p.n} z ${LIMIT_PROB}). Powtórz kod wolniej.`);
-    return { stan: 'zly', zostalo: LIMIT_PROB - p.n, bank: BANK };
+    return { stan: 'zly', zostalo: LIMIT_PROB - p.n };
   }
 
   kod.uzyty = true; clearInterval(licznik);

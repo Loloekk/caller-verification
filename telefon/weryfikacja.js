@@ -184,6 +184,10 @@
     faza = 'wynik';
     const b = w.bank || {};
     const zapis = tryb === 'in' ? `<div class="wf-saved">${ico('check')}Zapisano w historii połączeń</div>` : '';
+    // Infolinię banku pokazujemy tylko wtedy, gdy kod potwierdził bank, ale numer albo imię i nazwisko
+    // się nie zgadzają lub bank ich nie podał. Przy nieznanym kodzie nie wiemy, kto dzwoni.
+    const infolinia = `<div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || ''}</b></span></div>`;
+    const nieWiemy = `<div class="wf-zadzwon">${ico('alert')}<span>Nie wiemy, kto dzwoni. Zakończ rozmowę i nie podawaj żadnych danych.</span></div>`;
     let h;
     if (w.stan === 'ok') h = `
       <div class="wf-big ok">${ico('check')}</div>
@@ -192,37 +196,37 @@
       ${wiersze([['Dzwoni', b.nazwa], [b.rola, b.pracownik], ['Twój numer', 'zgadza się'], ['Sprawdzono', 'dziś, ' + w.godz]])}
       ${zapis}
       <div class="wf-warn">${ico('shield')}<span>${w.znaImie ? 'Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.' : 'Bank nie zna Twojego imienia i nazwiska. Wie tylko, pod jaki numer dzwoni, a mObywatel nie przekazał mu żadnych Twoich danych.'}</span></div>
-      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button><button type="button" class="wf-btn wf-soft" id="wfCall">Wolę oddzwonić na oficjalny numer</button></div>`;
+      <div class="wf-btns">${w.znaImie ? '' : infolinia}<button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else if (w.stan === 'zly') h = `
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
-      <p class="wf-lead">Ten kod nie potwierdza rozmowy. Nie ma go w systemie albo już wygasł.</p>
+      <p class="wf-lead">Ten kod nie potwierdza rozmowy, więc nie wiemy, kto dzwoni. Kodu nie ma w systemie albo już wygasł.</p>
       ${wiersze([['Wpisany kod', w.kod.slice(0, 3) + ' ' + w.kod.slice(3)]])}
-      <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. ${w.zostalo === 1 ? 'Została ostatnia próba.' : 'Zostały ' + w.zostalo + ' próby.'} Jeśli rozmówca naciska albo się spieszy, rozłącz się i zadzwoń na infolinię banku.</span></div>
-      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button><div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || '800 100 100'}</b></span></div><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
+      <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. ${w.zostalo === 1 ? 'Została ostatnia próba.' : 'Zostały ' + w.zostalo + ' próby.'} Jeśli rozmówca naciska albo się spieszy, zakończ rozmowę.</span></div>
+      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button>${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
     else if (w.stan === 'wygasl') h = `
       <div class="wf-big warn">${ico('clock')}</div>
       <h1>Kod wygasł</h1>
       <p class="wf-lead">Ten kod był prawdziwy, ale jest ważny tylko przez dwie minuty. Poproś rozmówcę o nowy kod.</p>
-      <div class="wf-warn">${ico('shield')}<span>Wygaśnięcie kodu nie oznacza oszustwa. Jeśli jednak rozmówca naciska, rozłącz się i zadzwoń na infolinię banku.</span></div>
+      <div class="wf-warn">${ico('shield')}<span>Wygaśnięcie kodu nie oznacza oszustwa. Jeśli jednak rozmówca naciska, zakończ rozmowę.</span></div>
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Wpisz nowy kod</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'blokada') h = `
       <div class="wf-big bad">${ico('lock')}</div>
       <h1>Za dużo błędnych prób</h1>
       <p class="wf-lead">Trzy razy wpisano kod, który nie potwierdza rozmowy. Sprawdzanie jest wstrzymane do ${w.do}.</p>
-      <div class="wf-warn">${ico('alert')}<span>Prawdziwy bank nie musi prosić o kolejne próby. Rozłącz się i zadzwoń na infolinię banku z numeru, który znasz.</span></div>
-      <div class="wf-btns"><div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || '800 100 100'}</b></span></div><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
+      <div class="wf-warn">${ico('alert')}<span>Prawdziwa instytucja nie musi prosić o kolejne próby.</span></div>
+      <div class="wf-btns">${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'numer') h = `
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
-      <p class="wf-lead">Kod wydano dla innego numeru telefonu niż Twój. Ktoś mógł przekazać Ci kod od prawdziwego banku.</p>
-      <div class="wf-btns"><div class="wf-zadzwon">${ico('phone')}<span>Zakończ rozmowę i zadzwoń na infolinię banku<b>${b.infolinia || '800 100 100'}</b></span></div><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
+      <p class="wf-lead">Kod wydał bank, ale dla innego numeru telefonu niż Twój. Ktoś mógł przekazać Ci kod od prawdziwego banku.</p>
+      <div class="wf-btns">${infolinia}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'osoba') h = `
       <div class="wf-big warn">${ico('user')}</div>
       <h1>Bank szuka innej osoby</h1>
       <p class="wf-lead">Dzwoni naprawdę bank, ale do poprzedniego właściciela Twojego numeru. Nie podawaj swoich danych.</p>
       ${wiersze([['Dzwoni', b.nazwa], [b.rola, b.pracownik]])}
-      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
+      <div class="wf-btns">${infolinia}<button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else h = `
       <div class="wf-big warn">${ico('alert')}</div>
       <h1>Brak połączenia z bankiem</h1>
@@ -231,8 +235,7 @@
     sheet.querySelector('.wf-sh-body').outerHTML = `<div class="wf-sh-body wf-result">${h}</div>`;
     const dn = sheet.querySelector('#wfDone'); if (dn) dn.onclick = zamknijArkusz;
     const rt = sheet.querySelector('#wfRetry'); if (rt) rt.onclick = otworzKod;
-    const c = sheet.querySelector('#wfCall'); if (c) c.onclick = () => niewspierane('Infolinia banku', `Zakończ rozmowę i zadzwoń na infolinię banku: ${b.infolinia || '800 100 100'}.`);
-    const r = sheet.querySelector('#wfReport'); if (r) r.onclick = () => niewspierane('Poza pokazem', 'Tu zgłoszenie trafiłoby do CERT Polska i do banku.');
+    const r = sheet.querySelector('#wfReport'); if (r) r.onclick = () => niewspierane('Poza pokazem', w.stan === 'numer' ? 'Tu zgłoszenie trafiłoby do CERT Polska i do banku, który wydał kod.' : 'Tu zgłoszenie trafiłoby do CERT Polska.');
   }
 
   /* ---------- skaner znaku bez serwera: znaki z innych kart tej przeglądarki ---------- */
