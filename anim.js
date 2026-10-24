@@ -151,13 +151,12 @@
   }
 
   // oszust składa wniosek o konto na dane Marty i swój numer, a gdy bank oddzwania, dzwoni do Marty jako bank,
-  // powtarza jej słowa konsultantki i przekazuje kod z banku
+  // podaje się za bank w innej sprawie, bo Marta nie składała wniosku, i przekazuje jej kod z banku
   async function rozmowaPosrednika() {
     const doBanku = ['posrednik', 'dzwoniacy'], doMarty = ['posrednik', 'marta'];
-    const powitanie = 'Dzień dobry, Anna Wiśniewska z banku. Chciałabym się z Panią skontaktować w związku z założeniem konta.';
     await dymek('wniosek', `Imię i nazwisko: ${OSOBA}\nTelefon: ${NUMER_OSZUSTA}`, doBanku);
-    await dymek('bank', powitanie, ['dzwoniacy', 'posrednik']);
-    await dymek('oszust', powitanie, doMarty);
+    await dymek('bank', 'Dzień dobry, Anna Wiśniewska z banku. Chciałabym się z Panią skontaktować w związku z założeniem konta.', ['dzwoniacy', 'posrednik']);
+    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z banku. Widzimy podejrzaną transakcję na Pani koncie. Muszę potwierdzić Pani tożsamość.', doMarty);
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.', ['marta', 'posrednik']);
     await dymek('oszust', 'Poproszę kod do zweryfikowania banku.', doBanku);
     await wpisz($('#num'), NUMER_OSZUSTA);   // bank tworzy kod dla numeru, z którym rozmawia, czyli numeru oszusta
