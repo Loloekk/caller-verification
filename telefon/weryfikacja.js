@@ -24,6 +24,8 @@
     alert: '<path d="M12 4 2.5 20h19z"/><path d="M12 10v4.5M12 17.5h.01"/>',
     user: '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.5 3.6-5.5 7-5.5s6.2 2 7 5.5"/>',
     chev: '<path d="m9.5 6 6 6-6 6"/>',
+    lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
     ai: '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 15.5 11 8.5h2l2 7M9.8 13h4.4"/>'
   };
   const ico = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
@@ -196,8 +198,20 @@
       <h1>To może być oszustwo</h1>
       <p class="wf-lead">Ten kod nie potwierdza rozmowy. Nie ma go w systemie albo już wygasł.</p>
       ${wiersze([['Wpisany kod', w.kod.slice(0, 3) + ' ' + w.kod.slice(3)]])}
-      <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. Jeśli rozmówca naciska albo się spieszy, rozłącz się i zadzwoń na infolinię banku.</span></div>
+      <div class="wf-warn">${ico('alert')}<span>Jeżeli kod został wpisany błędnie, spróbuj jeszcze raz. ${w.zostalo === 1 ? 'Została ostatnia próba.' : 'Zostały ' + w.zostalo + ' próby.'} Jeśli rozmówca naciska albo się spieszy, rozłącz się i zadzwoń na infolinię banku.</span></div>
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Spróbuj jeszcze raz</button><button type="button" class="wf-btn wf-soft" id="wfCall">Rozłącz i oddzwoń do banku</button><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button></div>`;
+    else if (w.stan === 'wygasl') h = `
+      <div class="wf-big warn">${ico('clock')}</div>
+      <h1>Kod wygasł</h1>
+      <p class="wf-lead">Ten kod był prawdziwy, ale jest ważny tylko przez dwie minuty. Poproś rozmówcę o nowy kod.</p>
+      <div class="wf-warn">${ico('shield')}<span>Wygaśnięcie kodu nie oznacza oszustwa. Jeśli jednak rozmówca naciska, rozłącz się i zadzwoń na infolinię banku.</span></div>
+      <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfRetry">Wpisz nowy kod</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
+    else if (w.stan === 'blokada') h = `
+      <div class="wf-big bad">${ico('lock')}</div>
+      <h1>Za dużo błędnych prób</h1>
+      <p class="wf-lead">Trzy razy wpisano kod, który nie potwierdza rozmowy. Sprawdzanie jest wstrzymane do ${w.do}.</p>
+      <div class="wf-warn">${ico('alert')}<span>Prawdziwy bank nie musi prosić o kolejne próby. Rozłącz się i zadzwoń na infolinię banku z numeru, który znasz.</span></div>
+      <div class="wf-btns"><button type="button" class="wf-btn wf-red" id="wfCall">Rozłącz i oddzwoń do banku</button><button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'numer') h = `
       <div class="wf-big bad">${ico('alert')}</div>
       <h1>To może być oszustwo</h1>
