@@ -51,4 +51,4 @@ Pięć przycisków animacji działa z każdej zakładki i na końcu włączają 
 
 Osoby, numery i bank są fikcyjne. Projekt nie jest usługą administracji publicznej ani oficjalną aplikacją mObywatel. Strona nie używa godła, logo mObywatela, oryginalnych grafik dokumentów ani zdjęć osób. Grafiki w `telefon/assets` zostały przygotowane na potrzeby tego projektu.
 
-Kod w folderze `telefon/` pochodzi z prototypu mobywatel.ai udostępnionego na licencji MIT. Szczegóły w pliku `LICENSE`.
+Wszelkie prawa zastrzeżone. Bez pisemnej zgody autora nie wolno kopiować, rozpowszechniać ani wykorzystywać tego projektu w całości ani w części. Wyjątkiem jest kod w folderze `telefon/` pochodzący z prototypu mobywatel.ai, który pozostaje na licencji MIT. Szczegóły w pliku `LICENSE`.
