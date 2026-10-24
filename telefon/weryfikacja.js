@@ -213,7 +213,7 @@
     else if (w.stan === 'blokada') h = `
       <div class="wf-big bad">${ico('lock')}</div>
       <h1>Za dużo błędnych prób</h1>
-      <p class="wf-lead">Trzy razy wpisano kod, który nie potwierdza rozmowy. Sprawdzanie jest wstrzymane do ${w.do}.</p>
+      <p class="wf-lead">Pięć razy wpisano kod, który nie potwierdza rozmowy. Sprawdzanie jest wstrzymane do ${w.do}.</p>
       <div class="wf-warn">${ico('alert')}<span>Prawdziwa instytucja nie musi prosić o kolejne próby.</span></div>
       <div class="wf-btns">${nieWiemy}<button type="button" class="wf-btn wf-soft" id="wfReport">Zgłoś oszustwo</button><button type="button" class="wf-btn wf-soft" id="wfDone">Zamknij</button></div>`;
     else if (w.stan === 'numer') h = `

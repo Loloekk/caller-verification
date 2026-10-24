@@ -90,8 +90,8 @@ $('#bankForm').addEventListener('submit', e => {
 });
 
 /* sprawdzenie kodu: w prawdziwym wdrożeniu robi to serwer mObywatela.
-   Serwer liczy też błędne próby dla każdego numeru: po trzech blokuje sprawdzanie na 5 minut. */
-const LIMIT_PROB = 3, BLOKADA_MIN = 5, OKNO_WYGASLEGO_MIN = 10;
+   Serwer liczy też błędne próby dla każdego numeru: po pięciu blokuje sprawdzanie na 5 minut. */
+const LIMIT_PROB = 5, BLOKADA_MIN = 5, OKNO_WYGASLEGO_MIN = 10;
 const proby = {};   // numer telefonu -> { n: błędne próby, do: koniec blokady }
 const godzOd = t => new Date(t).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
 const kodAktywnyDla = numer => kod && !kod.uzyty && Date.now() <= kod.wygasa && kod.numer === numer;
