@@ -43,7 +43,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ---------- układ sceny: strona banku | telefon ---------- */
-.stage{display:grid;grid-template-columns:minmax(420px,1fr) auto;min-height:calc(100vh - 57px)}
+.stage{display:grid;grid-template-columns:minmax(420px,721px) auto;min-height:calc(100vh - 57px)}
 .phoneside{display:flex;justify-content:center;align-items:flex-start;gap:28px;padding:24px 32px 40px}
 .col{display:flex;flex-direction:column;gap:12px}
 .label{font-size:13px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:0 4px}
