@@ -197,7 +197,7 @@
       ${zapis}
       ${w.znaImie
         ? `<div class="wf-warn">${ico('shield')}<span>Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.</span></div>`
-        : `<div class="wf-zadzwon wf-spokojnie">${ico('shield')}<span>Bank nie zna Twojego imienia i nazwiska. Wie tylko, pod jaki numer dzwoni, a mObywatel nie przekazał mu żadnych Twoich danych. Jeśli nie ufasz tej rozmowie, zakończ ją i zadzwoń na infolinię banku<b>${b.infolinia || ''}</b></span></div>`}
+        : `<div class="wf-uwaga">${ico('user')}<span>Bank nie zna Twojego imienia i nazwiska. Upewnij się, że chciał dodzwonić się właśnie do Ciebie, zanim podasz jakiekolwiek dane.</span></div>`}
       <div class="wf-btns"><button type="button" class="wf-btn wf-dark" id="wfDone">Gotowe</button></div>`;
     else if (w.stan === 'zly') h = `
       <div class="wf-big bad">${ico('alert')}</div>
