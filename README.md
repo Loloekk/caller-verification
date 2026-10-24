@@ -15,7 +15,7 @@ Kod wydany dla innego numeru kończy się ostrzeżeniem o oszustwie. Dzięki tem
 ## Co jest w repozytorium
 
 - `index.html`, `style.css`, `app.js`: strona pokazu, czyli system banku po lewej i telefon po prawej.
-- `anim.js`: animacja rozmowy.
+- `anim.js`: animacje rozmowy.
 - `telefon/`: aplikacja mObywatel skopiowana z prototypu [mobywatel.ai](https://mobywatel.ai) i osadzona w ramce telefonu. Działa jak oryginał w trybie bez asystenta AI: dokumenty, układy, sprawy, scenariusze rozmów, znak mObywatela i strona wypożyczalni (`telefon/komputer.html`).
 - `telefon/api-lokalne.js`: zastępuje serwer prototypu w przeglądarce, więc strona nie potrzebuje serwera.
 - `telefon/weryfikacja.js` i `telefon/weryfikacja.css`: nasz dodatek, czyli ekran logowania, „Sprawdź, kto dzwoni” i oznaczenia funkcji wymagających modelu.
@@ -39,7 +39,10 @@ python3 -m http.server 8000
 - **Jeden klient:** bank dzwoni do Marty. Telefon Marty można pokazać po zalogowaniu albo przed nim.
 - **Dwóch klientów:** zalogowane telefony Marty i Kacpra obok siebie. Kod wydany dla numeru Marty i wpisany u Kacpra kończy się ostrzeżeniem o oszustwie.
 
-Przycisk „Pokaż animację” działa z każdej zakładki. Pokazuje rozmowę konsultantki z Martą w dymkach: prośbę o kod, wpisanie danych w systemie banku, podanie kodu i sprawdzenie go w telefonie. Na końcu włącza zakładkę „Jeden klient”.
+Dwa przyciski animacji działają z każdej zakładki i na końcu włączają zakładkę „Jeden klient”:
+
+- **Pozytywna animacja:** rozmowa konsultantki z Martą w dymkach, wpisanie danych w systemie banku, podanie kodu i potwierdzenie w telefonie.
+- **Animacja oszustwa:** ta sama rozmowa, ale dzwoni oszust. Nie ma dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
 
 ## Zastrzeżenia
 

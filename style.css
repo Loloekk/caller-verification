@@ -169,3 +169,14 @@ body.animacja .tabs{pointer-events:none;opacity:.45}
 .dymek.marta small{color:var(--red-dark);opacity:1}
 .anim-pisze{border-color:var(--blue)!important;background:#fff!important;box-shadow:0 0 0 3px var(--blue-wash)!important}
 .anim-klik{transform:scale(.96);box-shadow:0 0 0 4px rgba(11,59,111,.25)}
+
+/* dwa przyciski animacji */
+.animy{display:flex;gap:8px;flex:none}
+.anim.oszust{background:var(--red-dark)}
+.anim.oszust:hover{background:#9a0d29}
+.anim[disabled]{opacity:.45;cursor:default}
+/* animacja oszustwa: strona banku przykryta napisem „Oszust” */
+.anim-oszust{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:120px;gap:6px;background:rgba(40,8,14,.62);color:#fff;text-align:center}
+.anim-oszust b{font-size:44px;letter-spacing:.02em}
+.anim-oszust small{font-size:16px;opacity:.85}
+.dymek.oszust{background:var(--red-dark);color:#fff;border-bottom-left-radius:6px}
