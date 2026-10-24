@@ -254,5 +254,5 @@ dopasujPasek();
 document.fonts && document.fonts.ready.then(dopasujPasek);
 
 ustawTryb('in', true);
-ustawScenariusz(['#two-customers', '#dwoch-klientow'].includes(location.hash) ? 2 : 1);   // stara polska kotwica też działa
+ustawScenariusz(location.hash === '#two-customers' ? 2 : 1);
 otworzPop($('[data-pop="pop-about"]'));   // po wejściu na stronę od razu widać opis pomysłu
