@@ -7,15 +7,17 @@
    - Błędne nazwisko: bank ma w kartotece inną osobę, więc telefon mówi, że bank szuka kogoś innego.
    - Animacja oszustwa: dzwoni oszust podający się za bank. Rozmowa jest taka sama, ale oszust nie ma
      dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
-   Obie działają z każdej zakładki, na koniec włączają „Jeden klient” i przywracają stan początkowy.
+   - Man in the middle: oszust zakłada konto na dane Marty i swój numer, a potem rozmawia jednocześnie
+     z bankiem i z Martą. Przekazuje Marcie prawdziwy kod z banku, ale kod wydano dla numeru oszusta.
+   Wszystkie działają z każdej zakładki, na koniec włączają „Jeden klient” i przywracają stan początkowy.
    Korzysta z funkcji i zmiennych z app.js. */
 (function () {
-  const NUMER = '600 100 200', OSOBA = 'Marta Kowalska';
+  const NUMER = '600 100 200', OSOBA = 'Marta Kowalska', NUMER_OSZUSTA = '512 300 400';
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
-  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Brak nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa' };
+  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Brak nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa', mitm: 'Man in the middle' };
   const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
-  const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn')];
-  let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null;
+  const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn'), $('#animMitmBtn')];
+  let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null, posrednik = null;
 
   // czekanie, które da się przerwać przyciskiem „Zatrzymaj animację”
   const czekaj = ms => new Promise((ok, nie) => {
@@ -25,17 +27,34 @@
   });
   const pozycja = el => { const r = el.getBoundingClientRect(); return { l: r.left + scrollX, t: r.top + scrollY, w: r.width, h: r.height }; };
 
-  // miejsca rozmówców: dzwoniący nad formularzem banku, Marta obok telefonu
+  // miejsca rozmówców: dzwoniący nad formularzem banku, Marta obok telefonu,
+  // a w man in the middle oszust nad swoim telefonem pośrodku i Marta na swoim telefonie
   function miejsca(szer, wys) {
-    const f = pozycja($('.bform')), t = pozycja(document.querySelector('#telefon').closest('.phone-wrap'));
+    const f = pozycja($('.bform')), t = pozycja(telefonMarty());
     const dzwoniacy = { x: f.l + szer / 2, y: Math.max(f.t - wys / 2 - 18, pozycja($('.bcontent')).t + wys / 2) };
     const marta = { x: t.l - szer / 2 - 28, y: t.t + t.h * 0.3 };
     if (innerWidth <= 900) { marta.x = t.l + t.w / 2; marta.y = t.t - wys / 2 - 12; }
-    return { dzwoniacy, marta };
+    if (!posrednik) return { dzwoniacy, marta };
+    const p = pozycja(posrednik);
+    return { dzwoniacy, marta: { x: t.l + t.w / 2, y: t.t + t.h * 0.3 }, posrednik: { x: p.l + p.w / 2, y: p.t - wys / 2 - 14 } };
+  }
+  const telefonMarty = () => document.querySelector('#telefon').closest('.phone-wrap');
+
+  // telefon oszusta pośrodku: między stroną banku a telefonem Marty, a na wąskim ekranie nad telefonem Marty
+  function telefonOszusta() {
+    const b = pozycja($('.bankside')), t = pozycja(telefonMarty());
+    const o = document.createElement('div');
+    o.className = 'anim-mitm';
+    o.innerHTML = `<svg class="i"><use href="#i-alert"/></svg><b>Oszust</b><small>rozmawia z bankiem i z Martą naraz</small><span class="nr">${NUMER_OSZUSTA}</span>`;
+    const wide = innerWidth > 900;
+    Object.assign(o.style, { left: (wide ? (b.l + b.w + t.l) / 2 : t.l + t.w / 2) + 'px', top: (wide ? t.t + t.h * 0.6 : t.t - 210) + 'px' });
+    warstwa.append(o);
+    return o;
   }
 
-  // dymek: kto = 'bank', 'oszust' albo 'marta'; leci od mówiącego do słuchającego
-  async function dymek(kto, tresc) {
+  // dymek: kto = 'bank', 'oszust' albo 'marta'; leci od mówiącego do słuchającego.
+  // trasa = [skąd, dokąd] spośród miejsc; domyślnie między dzwoniącym a Martą
+  async function dymek(kto, tresc, trasa) {
     if (przerwano) throw new Error('stop');
     const d = document.createElement('div');
     d.className = 'dymek ' + kto;
@@ -44,7 +63,8 @@
     warstwa.append(d);
     const szer = d.offsetWidth, wys = d.offsetHeight;
     const m = miejsca(szer, wys);
-    const a = kto === 'marta' ? m.marta : m.dzwoniacy, b = kto === 'marta' ? m.dzwoniacy : m.marta;
+    const [skad, dokad] = trasa || (kto === 'marta' ? ['marta', 'dzwoniacy'] : ['dzwoniacy', 'marta']);
+    const a = m[skad], b = m[dokad];
     const cx = (a.x + b.x) / 2, cy = Math.min(a.y, b.y) - 90;
     const ustaw = u => {
       const x = (1 - u) * (1 - u) * a.x + 2 * (1 - u) * u * cx + u * u * b.x;
@@ -129,6 +149,26 @@
     await czekaj(800);
   }
 
+  // oszust zakłada konto na dane Marty i swój numer, dzwoni do Marty jako bank i przekazuje jej kod z banku
+  async function rozmowaPosrednika() {
+    const doBanku = ['posrednik', 'dzwoniacy'], doMarty = ['posrednik', 'marta'];
+    await dymek('oszust', `Dzień dobry, chcę założyć konto. Nazywam się ${OSOBA}, mój numer to ${NUMER_OSZUSTA}.`, doBanku);
+    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani wniosku o konto.', doMarty);
+    await dymek('marta', 'Poproszę kod do zweryfikowania banku.', ['marta', 'posrednik']);
+    await dymek('oszust', 'Poproszę kod do zweryfikowania banku.', doBanku);
+    await wpisz($('#num'), NUMER_OSZUSTA);   // bank tworzy kod dla numeru, z którym rozmawia, czyli numeru oszusta
+    await wpisz($('#kto'), OSOBA);
+    $('#mkBtn').classList.add('anim-klik'); await czekaj(500); $('#mkBtn').classList.remove('anim-klik');
+    $('#bankForm').requestSubmit();
+    await czekaj(1200);
+    const kodTxt = $('#codeTxt').textContent;
+    await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`, ['dzwoniacy', 'posrednik']);
+    await dymek('oszust', `Oczywiście. Kod to ${kodTxt}.`, doMarty);
+    await sprawdzWTelefonie(kodTxt);
+    await dymek('marta', 'mObywatel ostrzega, że bank wydał ten kod dla innego numeru niż mój. Kończę rozmowę.', ['marta', 'posrednik']);
+    await czekaj(800);
+  }
+
   function wyczyscBank(pustePola) {
     clearInterval(licznik); kod = null; delete proby[NUMER.replace(/\s/g, '')];
     $('#num').value = pustePola ? '' : NUMER; $('#kto').value = pustePola ? '' : OSOBA; $('#numErr').textContent = '';
@@ -146,6 +186,7 @@
     typeof zamknijPopy === 'function' && zamknijPopy();
     ustawScenariusz(1);
     document.body.classList.add('animacja');
+    document.body.classList.toggle('mitm', rodzaj === 'mitm');
     doTelefonu(ramka, { typ: 'wf-tryb', tryb: 'in' });
     doTelefonu(ramka, { typ: 'wf-demo', krok: 'zamknij' });
     wyczyscBank(true);   // na początku strona banku ma puste pola
@@ -163,15 +204,21 @@
       o.innerHTML = '<b>Oszust</b><small>podaje się za konsultantkę banku</small>';
       warstwa.append(o);
     }
-    try { await czekaj(500); await (rodzaj === 'oszust' ? rozmowaOszusta() : rozmowaBanku({ beznazwiska: 'bez', zlenazwisko: 'zle' }[rodzaj] || 'ok')); } catch (e) { /* zatrzymano */ }
+    if (rodzaj === 'mitm') posrednik = telefonOszusta();
+    try {
+      await czekaj(500);
+      if (rodzaj === 'oszust') await rozmowaOszusta();
+      else if (rodzaj === 'mitm') await rozmowaPosrednika();
+      else await rozmowaBanku({ beznazwiska: 'bez', zlenazwisko: 'zle' }[rodzaj] || 'ok');
+    } catch (e) { /* zatrzymano */ }
     koniec();
   }
 
   // po animacji: „Jeden klient”, ekran główny telefonu i formularz banku jak po wejściu na stronę
   function koniec() {
     stop = null;
-    warstwa && warstwa.remove(); warstwa = null;
-    document.body.classList.remove('animacja');
+    warstwa && warstwa.remove(); warstwa = null; posrednik = null;
+    document.body.classList.remove('animacja', 'mitm');
     document.querySelectorAll('.anim-pisze,.anim-klik').forEach(e => e.classList.remove('anim-pisze', 'anim-klik'));
     przyciski.forEach(p => {
       const n = NAZWY[p.dataset.rodzaj];
