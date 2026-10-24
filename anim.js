@@ -87,8 +87,8 @@
 
     await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`);
 
-    doTelefonu(ramka, { typ: 'wf-demo', krok: 'otworz' });
-    await czekaj(1000);
+    doTelefonu(ramka, { typ: 'wf-demo', krok: 'otworz' });   // telefon pokazuje stuknięcie w „Sprawdź, kto dzwoni”
+    await czekaj(1500);
     for (const c of kodTxt.replace(/\s/g, '')) { doTelefonu(ramka, { typ: 'wf-demo', krok: 'cyfra', c }); await czekaj(350); }
     await czekaj(600);
     doTelefonu(ramka, { typ: 'wf-demo', krok: 'wyslij' });

@@ -272,6 +272,20 @@
   new MutationObserver(() => { const q = document.querySelector('#qrx.scan.on'); if (q) dodajSymulacje(q); })
     .observe(app, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
 
+  /* ---------- widoczne stuknięcie palcem (dla animacji na stronie pokazu) ---------- */
+  function stuknij(cel) {
+    if (!cel) return;
+    const r = cel.getBoundingClientRect(), a = app.getBoundingClientRect();
+    const k = document.createElement('span');
+    k.className = 'wf-tap';
+    k.style.left = r.left - a.left + r.width / 2 + 'px';
+    k.style.top = r.top - a.top + r.height / 2 + 'px';
+    app.append(k);
+    cel.classList.add('wf-wcisniety');
+    setTimeout(() => cel.classList.remove('wf-wcisniety'), 260);
+    setTimeout(() => k.remove(), 700);
+  }
+
   /* ---------- rozmowa ze stroną banku ---------- */
   window.addEventListener('message', e => {
     const m = e.data || {};
@@ -280,9 +294,9 @@
     if (m.typ === 'wf-wynik' && czekajace[m.id]) { czekajace[m.id](m.wynik); delete czekajace[m.id]; }
     // animacja rozmowy na stronie pokazu steruje telefonem: otwiera sprawdzanie, wpisuje cyfry, wysyła kod
     if (m.typ === 'wf-demo') {
-      if (m.krok === 'otworz') otworzKod();
-      if (m.krok === 'cyfra') klawisz(String(m.c));
-      if (m.krok === 'wyslij') wyslij();
+      if (m.krok === 'otworz') { stuknij(document.getElementById('wfKto')); setTimeout(otworzKod, 450); }
+      if (m.krok === 'cyfra') { stuknij(sheet.querySelector(`#wfKeypad [data-k="${m.c}"]`)); klawisz(String(m.c)); }
+      if (m.krok === 'wyslij') { stuknij(sheet.querySelector('#wfGo')); setTimeout(wyslij, 300); }
       if (m.krok === 'zamknij') zamknijArkusz();
     }
   });
