@@ -89,3 +89,8 @@
 
 /* w pokazie osobę wybiera strona obok telefonu, więc menu „Dokumenty” ma tylko układ dokumentów */
 .lmenu .panel > .mh:nth-child(3),.lmenu .mo{display:none}
+
+/* polecenie: zakończ rozmowę i zadzwoń na infolinię (aplikacja nie może sama rozłączyć rozmowy) */
+.wf-zadzwon{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;background:var(--red-wash);color:var(--red-dark);font-size:16px;font-weight:600;line-height:1.3}
+.wf-zadzwon svg{flex:none;width:24px;height:24px}
+.wf-zadzwon b{display:block;margin-top:2px;font-size:18px;color:var(--ink);letter-spacing:.02em}
