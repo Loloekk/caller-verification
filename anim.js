@@ -3,6 +3,7 @@
 /* Animacje rozmowy. Wypowiedzi przelatują w dużych dymkach między stroną banku a telefonem Marty.
    - Pozytywna animacja: konsultantka banku po prośbie o kod wpisuje dane w pustym formularzu,
      tworzy kod i podaje go, a Marta sprawdza go w mObywatelu i dostaje potwierdzenie.
+   - Bank bez nazwiska: jak wyżej, ale konsultantka zna tylko numer, więc telefon prosi o upewnienie się, do kogo dzwoni.
    - Animacja oszustwa: dzwoni oszust podający się za bank. Rozmowa jest taka sama, ale oszust nie ma
      dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
    Obie działają z każdej zakładki, na koniec włączają „Jeden klient” i przywracają stan początkowy.
@@ -10,9 +11,9 @@
 (function () {
   const NUMER = '600 100 200', OSOBA = 'Marta Kowalska';
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
-  const NAZWY = { bank: 'Pozytywna animacja', oszust: 'Animacja oszustwa' };
+  const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Bank bez nazwiska', oszust: 'Animacja oszustwa' };
   const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
-  const przyciski = [$('#animBtn'), $('#animOszustBtn')];
+  const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animOszustBtn')];
   let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null;
 
   // czekanie, które da się przerwać przyciskiem „Zatrzymaj animację”
@@ -88,18 +89,23 @@
     await czekaj(2600);
   }
 
-  async function rozmowaBanku() {
-    await dymek('bank', 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.');
+  // bezNazwiska: bank dzwoni na numer, ale nie zna imienia i nazwiska klienta, więc zostawia to pole puste
+  async function rozmowaBanku(bezNazwiska) {
+    await dymek('bank', bezNazwiska
+      ? 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie zgłoszenia z tego numeru.'
+      : 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.');
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.');
     await wpisz($('#num'), NUMER);
-    await wpisz($('#kto'), OSOBA);
+    if (!bezNazwiska) await wpisz($('#kto'), OSOBA);
     $('#mkBtn').classList.add('anim-klik'); await czekaj(500); $('#mkBtn').classList.remove('anim-klik');
     $('#bankForm').requestSubmit();
     await czekaj(1200);
     const kodTxt = $('#codeTxt').textContent;
     await dymek('bank', `Oczywiście. Kod to ${kodTxt}.`);
     await sprawdzWTelefonie(kodTxt);
-    await dymek('marta', 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?');
+    await dymek('marta', bezNazwiska
+      ? 'mObywatel potwierdza, że to bank, ale nie zna Pani mojego nazwiska. Do kogo Pani dzwoni?'
+      : 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?');
     await czekaj(800);
   }
 
@@ -148,7 +154,7 @@
       o.innerHTML = '<b>Oszust</b><small>podaje się za konsultantkę banku</small>';
       warstwa.append(o);
     }
-    try { await czekaj(500); await (rodzaj === 'oszust' ? rozmowaOszusta() : rozmowaBanku()); } catch (e) { /* zatrzymano */ }
+    try { await czekaj(500); await (rodzaj === 'oszust' ? rozmowaOszusta() : rozmowaBanku(rodzaj === 'beznazwiska')); } catch (e) { /* zatrzymano */ }
     koniec();
   }
 

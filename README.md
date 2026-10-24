@@ -39,9 +39,10 @@ python3 -m http.server 8000
 - **Jeden klient:** bank dzwoni do Marty. Telefon Marty można pokazać po zalogowaniu albo przed nim.
 - **Dwóch klientów:** zalogowane telefony Marty i Kacpra obok siebie. Kod wydany dla numeru Marty i wpisany u Kacpra kończy się ostrzeżeniem o oszustwie.
 
-Dwa przyciski animacji działają z każdej zakładki i na końcu włączają zakładkę „Jeden klient”:
+Trzy przyciski animacji działają z każdej zakładki i na końcu włączają zakładkę „Jeden klient”:
 
 - **Pozytywna animacja:** rozmowa konsultantki z Martą w dymkach, wpisanie danych w systemie banku, podanie kodu i potwierdzenie w telefonie.
+- **Bank bez nazwiska:** bank zna tylko numer Marty, więc nie wpisuje imienia i nazwiska. Telefon potwierdza bank, ale prosi o upewnienie się, do kogo dzwoni.
 - **Animacja oszustwa:** ta sama rozmowa, ale dzwoni oszust. Nie ma dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
 
 ## Zastrzeżenia
