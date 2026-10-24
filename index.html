@@ -32,7 +32,7 @@
 
 <div class="pop" id="pop-s1" role="dialog" aria-label="Scenariusz: Pozytywne sprawdzenie">
   <h3>Pozytywne sprawdzenie</h3>
-  <p>Konsultantka Banku Wiślanego dzwoni do Marty Kowalskiej. Marta nie wie, czy to naprawdę bank, więc sprawdza rozmowę w mObywatelu.</p>
+  <p>Konsultantka Banku Horyzont dzwoni do Marty Kowalskiej. Marta nie wie, czy to naprawdę bank, więc sprawdza rozmowę w mObywatelu.</p>
   <ol>
     <li>W panelu banku kliknij „Utwórz kod”.</li>
     <li>W telefonie wybierz „Sprawdź, kto dzwoni”.</li>
@@ -42,25 +42,30 @@
 </div>
 
 <main class="stage">
-  <section class="col" aria-label="Panel banku">
-    <p class="label">Bank</p>
-    <div class="bank">
-      <div class="bank-head">
-        <div class="bank-logo"><svg class="i"><use href="#i-bank"/></svg></div>
-        <div><b>Bank Wiślany</b><small>Panel konsultanta · Anna Wiśniewska</small></div>
-      </div>
-      <form class="bank-body" id="bankForm" novalidate>
-        <div class="field">
-          <label for="num">Numer, pod który dzwonisz</label>
-          <input id="num" inputmode="tel" autocomplete="off" value="600 100 200">
-          <div class="err" id="numErr"></div>
+  <section class="bankside" aria-label="Strona banku">
+    <header class="bhead">
+      <div class="blogo"><span class="bmark"><svg class="i"><use href="#i-bank"/></svg></span><b>Bank Horyzont</b></div>
+      <nav class="bnav" aria-hidden="true"><span>Klienci</span><span class="on">Połączenia</span><span>Wnioski</span></nav>
+      <div class="buser"><span class="bav">AW</span><span><b>Anna Wiśniewska</b><small>Konsultantka</small></span></div>
+    </header>
+    <div class="bcontent">
+      <p class="crumb">Połączenia <span>/</span> Weryfikacja rozmowy</p>
+      <h1>Weryfikacja rozmowy w mObywatelu</h1>
+      <p class="intro">Utwórz kod przed rozmową z klientem i podaj go na początku połączenia. Klient sprawdzi w mObywatelu, że dzwoni naprawdę Bank Horyzont.</p>
+      <form id="bankForm" class="bform" novalidate>
+        <div class="frow">
+          <div class="field">
+            <label for="num">Numer, pod który dzwonisz</label>
+            <input id="num" inputmode="tel" autocomplete="off" value="600 100 200">
+            <div class="err" id="numErr"></div>
+          </div>
+          <div class="field">
+            <label for="kto">Imię i nazwisko klienta</label>
+            <input id="kto" autocomplete="off" value="Marta Kowalska">
+            <div class="hint">Opcjonalnie. Klient zobaczy tylko, czy się zgadza.</div>
+          </div>
         </div>
-        <div class="field">
-          <label for="kto">Imię i nazwisko klienta</label>
-          <input id="kto" autocomplete="off" value="Marta Kowalska">
-          <div class="hint">Opcjonalnie. Klient zobaczy tylko, czy się zgadza.</div>
-        </div>
-        <button class="btn primary" id="mkBtn" type="submit">Utwórz kod</button>
+        <div><button class="btn primary" id="mkBtn" type="submit">Utwórz kod</button></div>
         <div id="codeArea" hidden>
           <div class="codebox" id="codebox">
             <div class="k">Kod do podania klientowi</div>
@@ -69,11 +74,12 @@
           </div>
         </div>
         <div class="status" id="bankStatus"><svg class="i"><use href="#i-info"/></svg><span>Kod działa raz i tylko dla numeru, pod który dzwonisz.</span></div>
-        <p class="note">W prawdziwym wdrożeniu kod tworzy system telefoniczny banku przez API mObywatela. Tutaj panel i telefon działają w jednej stronie.</p>
       </form>
+      <p class="note">W prawdziwym wdrożeniu kod tworzy system telefoniczny banku przez API mObywatela. Tutaj strona banku i telefon działają w jednym oknie.</p>
     </div>
   </section>
 
+  <section class="phoneside">
   <section class="col" aria-label="Telefon Marty">
     <p class="label">Telefon Marty · 600 100 200</p>
     <div class="phone-wrap" id="phoneWrap">
@@ -92,6 +98,7 @@
     <button class="opt" data-mode="in"><span class="av">MK</span><span><b>Marta Kowalska</b><small>zalogowana w mObywatelu</small></span></button>
     <button class="opt" data-mode="out"><span class="av lock"><svg class="i"><use href="#i-lock"/></svg></span><span><b>Niezalogowany użytkownik</b><small>aplikacja zablokowana, ekran logowania</small></span></button>
     <div class="whocard">Numer <b>600 100 200</b> jest potwierdzony SMS-em w profilu Marty. Sprawdzenie działa w obu stanach, bo serwer zna numer przypisany do tego telefonu.</div>
+  </section>
   </section>
 </main>
 

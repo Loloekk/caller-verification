@@ -40,18 +40,33 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s,transform .3s var(--ease);z-index:80;max-width:calc(100vw - 32px)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ---------- układ sceny ---------- */
-.stage{display:flex;justify-content:center;align-items:flex-start;gap:28px;padding:24px 16px 40px}
+/* ---------- układ sceny: strona banku | telefon ---------- */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) auto;min-height:calc(100vh - 57px)}
+.phoneside{display:flex;justify-content:center;align-items:flex-start;gap:28px;padding:24px 32px 40px}
 .col{display:flex;flex-direction:column;gap:12px}
 .label{font-size:13px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:0 4px}
 
-/* ---------- panel banku ---------- */
-.bank{width:380px;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
-.bank-head{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--hair)}
-.bank-logo{width:40px;height:40px;border-radius:12px;background:#0b3b6f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px}
-.bank-head b{display:block;font-size:16px}
-.bank-head small{color:var(--ink2);font-size:13px}
-.bank-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px}
+/* ---------- strona banku ---------- */
+.bankside{background:var(--surface);border-right:1px solid #cfd3dc;display:flex;flex-direction:column;min-width:0}
+.bhead{display:flex;align-items:center;gap:28px;height:64px;padding:0 32px;background:#0b3b6f;color:#fff;flex:none}
+.blogo{display:flex;align-items:center;gap:10px;font-size:17px;white-space:nowrap}
+.bmark{width:34px;height:34px;border-radius:10px;background:#fff;color:#0b3b6f;display:flex;align-items:center;justify-content:center;font-size:20px}
+.bnav{display:flex;gap:4px;flex:1;min-width:0;overflow:hidden}
+.bnav span{padding:8px 12px;border-radius:8px;font-size:14px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap}
+.bnav span.on{background:rgba(255,255,255,.14);color:#fff}
+.buser{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.buser b{display:block;font-size:14px}
+.buser small{display:block;font-size:12px;color:rgba(255,255,255,.75)}
+.bav{width:34px;height:34px;border-radius:50%;background:#e8913a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.bcontent{padding:28px 32px 40px;max-width:720px;width:100%}
+.crumb{margin:0 0 6px;font-size:13px;color:var(--ink3)}
+.crumb span{margin:0 4px}
+.bcontent h1{margin:0 0 8px;font-size:26px;letter-spacing:-.02em}
+.intro{margin:0 0 24px;color:var(--ink2);font-size:15px;line-height:1.5;max-width:560px}
+.bform{display:flex;flex-direction:column;gap:16px;padding:20px;border:1px solid var(--hair);border-radius:12px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bform .btn.primary{min-width:180px}
+.bcontent .note{margin-top:16px}
 .field label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:0 0 6px}
 .field input{width:100%;height:44px;border:1px solid var(--hair);border-radius:12px;padding:0 12px;font-size:16px;background:#fafbfc}
 .field input:focus{border-color:var(--blue);background:#fff;outline:none;box-shadow:0 0 0 3px var(--blue-wash)}
@@ -186,15 +201,31 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+@media (max-width:1500px){
+  .bnav span:not(.on){display:none}
+}
 @media (max-width:1180px){
-  .stage{flex-wrap:wrap}
-  .who{width:380px}
+  .phoneside{flex-direction:column;align-items:center;gap:20px}
+  .who{width:330px}
+}
+@media (max-width:900px){
+  .stage{grid-template-columns:minmax(0,1fr)}
+  .phoneside{min-width:0;overflow:hidden}
+  .bankside{border-right:0;border-bottom:1px solid #cfd3dc}
+  .bnav{display:none}
+  .bhead{justify-content:space-between}
 }
 @media (max-width:760px){
-  .stage{flex-direction:column;align-items:center;gap:20px;padding:16px 16px 32px}
+  .phoneside{padding:20px 16px 32px}
   .col{width:100%;max-width:420px}
-  .bank,.who{width:100%}
+  .who{width:100%}
   .phone-wrap{align-self:center}
+  .bhead{padding:0 16px;gap:12px}
+  .buser span:last-child{display:none}
+  .bcontent{padding:20px 16px 28px}
+  .bcontent h1{font-size:22px}
+  .bform{padding:16px}
+  .frow{grid-template-columns:1fr}
   .brand .txt{display:none}
   .anim .txt{display:none}
   .anim{padding:9px 12px}

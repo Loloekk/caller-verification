@@ -2,7 +2,7 @@
 
 /* ---------- dane pokazu (fikcyjne) ---------- */
 const WLASCICIEL = { imie: 'Marta Kowalska', numer: '600100200' };
-const BANK = { nazwa: 'Bank Wiślany', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
+const BANK = { nazwa: 'Bank Horyzont', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
 const WAZNOSC_S = 120;
 
 const $ = s => document.querySelector(s);
@@ -274,8 +274,9 @@ zegar(); setInterval(zegar, 15000);
 
 function dopasuj() {
   const top = $('.topbar').offsetHeight;
-  const s = innerWidth <= 760
-    ? Math.min(1, (Math.min(innerWidth, 452) - 32 - 22) / 390)
+  const vw = document.documentElement.clientWidth || innerWidth;
+  const s = vw <= 760
+    ? Math.min(1, (Math.min(vw, 452) - 32 - 22) / 390)
     : Math.min(1, Math.max(0.55, (innerHeight - top - 110) / 844));
   const wrap = $('#phoneWrap');
   wrap.style.width = 390 * s + 'px'; wrap.style.height = 844 * s + 'px';
