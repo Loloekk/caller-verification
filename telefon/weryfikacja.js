@@ -48,6 +48,7 @@
    "To naprawdę bank i dzwoni pod Twój numer.": "It really is the bank, and it is calling your number.",
    "Dzwoni": "Caller",
    "Bank": "Bank",
+   "Bank ABC": "Bank ABC",
    "Konsultantka": "Consultant",
    "Anna Wiśniewska": "Anna Wiśniewska",
    "Twój numer": "Your number",

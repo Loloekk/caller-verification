@@ -5,7 +5,7 @@
    Strona banku i telefon rozmawiają przez postMessage. */
 
 /* ---------- dane pokazu (fikcyjne) ---------- */
-const BANK = { nazwa: 'Bank', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
+const BANK = { nazwa: 'Bank ABC', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
 const WAZNOSC_S = 120;
 
 const $ = s => document.querySelector(s);

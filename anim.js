@@ -118,11 +118,11 @@
   // 'zle' (bank ma w kartotece inną osobę, np. poprzedniego właściciela numeru)
   const INNA_OSOBA = 'Jan Nowak';
   const ROZMOWA = {
-    ok: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.', nazwisko: OSOBA,
+    ok: { start: 'Dzień dobry, Anna Wiśniewska z Banku ABC. Dzwonię w sprawie Pani karty.', nazwisko: OSOBA,
           koniec: 'Mam potwierdzenie w mObywatelu. O co chodzi z moją kartą?' },
-    bez: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie zgłoszenia z tego numeru.', nazwisko: '',
+    bez: { start: 'Dzień dobry, Anna Wiśniewska z Banku ABC. Dzwonię w sprawie zgłoszenia z tego numeru.', nazwisko: '',
            koniec: 'mObywatel potwierdza, że to bank, ale nie zna Pani mojego nazwiska. Do kogo Pani dzwoni?' },
-    zle: { start: 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie karty.', nazwisko: INNA_OSOBA,
+    zle: { start: 'Dzień dobry, Anna Wiśniewska z Banku ABC. Dzwonię w sprawie karty.', nazwisko: INNA_OSOBA,
            koniec: 'mObywatel mówi, że szuka Pani innej osoby. To pomyłka, ten numer należy teraz do mnie.' }
   };
   async function rozmowaBanku(wariant) {
@@ -141,7 +141,7 @@
   }
 
   async function rozmowaOszusta() {
-    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani karty.');
+    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z Banku ABC. Dzwonię w sprawie Pani karty.');
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.');
     await czekaj(1200);   // oszust nie ma dostępu do systemu banku, więc wymyśla kod
     const wymyslony = String(Math.floor(Math.random() * 1e6)).padStart(6, '0');
@@ -156,8 +156,8 @@
   async function rozmowaPosrednika() {
     const doBanku = ['posrednik', 'dzwoniacy'], doMarty = ['posrednik', 'marta'];
     await dymek('wniosek', `Imię i nazwisko: ${OSOBA}\nTelefon: ${NUMER_OSZUSTA}`, doBanku);
-    await dymek('bank', 'Dzień dobry, Anna Wiśniewska z banku. Chciałabym się z Panią skontaktować w związku z założeniem konta.', ['dzwoniacy', 'posrednik']);
-    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z banku. Widzimy podejrzaną transakcję na Pani koncie. Muszę potwierdzić Pani tożsamość.', doMarty);
+    await dymek('bank', 'Dzień dobry, Anna Wiśniewska z Banku ABC. Chciałabym się z Panią skontaktować w związku z założeniem konta.', ['dzwoniacy', 'posrednik']);
+    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z Banku ABC. Widzimy podejrzaną transakcję na Pani koncie. Muszę potwierdzić Pani tożsamość.', doMarty);
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.', ['marta', 'posrednik']);
     await dymek('oszust', 'Poproszę kod do zweryfikowania banku.', doBanku);
     await wpisz($('#num'), NUMER_OSZUSTA);   // bank tworzy kod dla numeru, z którym rozmawia, czyli numeru oszusta
