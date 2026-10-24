@@ -20,14 +20,13 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .brand{display:flex;align-items:center;gap:8px;margin-right:4px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
 .tabs{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{display:flex;align-items:center;gap:4px;min-width:0;padding:8px 8px 8px 12px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink2);white-space:nowrap}
+.tab{display:flex;align-items:center;gap:4px;min-width:0;padding:8px 14px;cursor:pointer;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink2);white-space:nowrap}
 .tab.on{background:var(--red-wash);color:var(--red-dark)}
 .tab .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tab:not(.on):hover{background:rgba(17,18,22,.05)}
 .col[hidden]{display:none}
 .ibtn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:var(--ink2);font-size:16px}
 .ibtn:hover{background:rgba(17,18,22,.06)}
-.tab.on .ibtn{color:var(--red-dark)}
 .ibtn.lg{width:34px;height:34px;font-size:20px;border:1px solid var(--hair)}
 .anim{display:flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;white-space:nowrap}
 .anim:hover{background:#2a2c33}
@@ -37,8 +36,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 #pop-about{width:min(460px,calc(100vw - 32px))}
 .pop h3{margin:0 0 6px;font-size:16px}
 .pop p{margin:0 0 8px;color:var(--ink2)}
-.pop ol{margin:0;padding-left:20px;color:var(--ink2)}
-.pop li{margin:2px 0}
 
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s,transform .3s var(--ease);z-index:80;max-width:calc(100vw - 32px)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -146,7 +143,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .anim{padding:9px 12px}
   .topbar{padding:10px 12px;gap:6px}
   .brand{margin-right:2px}
-  .tab{font-size:14px;padding-left:12px}
+  .tab{font-size:14px;padding:8px 12px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 

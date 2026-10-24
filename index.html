@@ -17,11 +17,9 @@
   <nav class="tabs" aria-label="Scenariusze">
     <div class="tab on" data-scen="1">
       <button type="button" class="lbl" aria-current="true">Jeden klient</button>
-      <button class="ibtn" data-pop="pop-s1" aria-label="Opis scenariusza Jeden klient" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
     </div>
     <div class="tab" data-scen="2">
       <button type="button" class="lbl">Dwóch klientów</button>
-      <button class="ibtn" data-pop="pop-s2" aria-label="Opis scenariusza Dwóch klientów" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
     </div>
   </nav>
   <div class="animy">
@@ -40,28 +38,6 @@
   <p>Dlatego odwracamy kierunek. Instytucja zgłasza do mObywatela tylko numer, pod który dzwoni, i dostaje jednorazowy kod. Konsultant podaje go w rozmowie, a klient wpisuje kod w mObywatelu, także bez logowania.</p>
   <p>mObywatel porównuje numer z kodu z potwierdzonym numerem klienta. Gdy się zgadza, klient widzi, kto dzwoni. Gdy nie, dostaje ostrzeżenie. Instytucja nie otrzymuje żadnych danych klienta.</p>
   <p>To prototyp na mObywatel Challenge. Osoby, numery i bank są fikcyjne.</p>
-</div>
-
-<div class="pop" id="pop-s1" role="dialog" aria-label="Scenariusz: Jeden klient">
-  <h3>Jeden klient</h3>
-  <p>Konsultantka banku dzwoni do Marty Kowalskiej. Marta nie wie, czy to naprawdę bank, więc sprawdza rozmowę w mObywatelu.</p>
-  <ol>
-    <li>W panelu banku kliknij „Utwórz kod”.</li>
-    <li>W telefonie wybierz „Sprawdź, kto dzwoni”.</li>
-    <li>Wpisz kod z panelu banku.</li>
-  </ol>
-  <p style="margin-top:8px">Spróbuj obu wariantów obok telefonu: Marta zalogowana i aplikacja przed zalogowaniem.</p>
-</div>
-
-<div class="pop" id="pop-s2" role="dialog" aria-label="Scenariusz: Dwóch klientów">
-  <h3>Dwóch klientów</h3>
-  <p>Obok siebie są telefony Marty i Kacpra, oba zalogowane. Bank tworzy kod dla numeru, pod który dzwoni.</p>
-  <ol>
-    <li>Utwórz kod dla numeru Marty: 600 100 200.</li>
-    <li>Wpisz go w telefonie Kacpra. Kacper zobaczy ostrzeżenie o oszustwie, bo kod wydano dla innego numeru.</li>
-    <li>Utwórz nowy kod i wpisz go w telefonie Marty. Rozmowa zostanie potwierdzona.</li>
-  </ol>
-  <p style="margin-top:8px">Tak wygląda próba przekazania komuś kodu od prawdziwego banku.</p>
 </div>
 
 <main class="stage">

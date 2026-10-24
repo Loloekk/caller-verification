@@ -165,7 +165,7 @@ function ustawScenariusz(n) {
   try { history.replaceState(null, '', scen === 2 ? '#dwoch-klientow' : '#jeden-klient'); } catch (e) {}
   dopasuj();
 }
-$$('.tab .lbl').forEach(b => b.addEventListener('click', () => ustawScenariusz(+b.closest('.tab').dataset.scen)));
+$$('.tab').forEach(t => t.addEventListener('click', () => ustawScenariusz(+t.dataset.scen)));
 
 function pokazOsobe(m) {
   $('#telLabel').textContent = `Telefon ${m.dopelniacz} · ${m.numerTxt}`;
