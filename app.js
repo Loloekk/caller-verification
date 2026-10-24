@@ -91,7 +91,7 @@ $('#bankForm').addEventListener('submit', e => {
 
 /* sprawdzenie kodu: w prawdziwym wdrożeniu robi to serwer mObywatela.
    Serwer liczy też błędne próby dla każdego numeru: po trzech blokuje sprawdzanie na 5 minut. */
-const LIMIT_PROB = 3, BLOKADA_MIN = 5;
+const LIMIT_PROB = 3, BLOKADA_MIN = 5, OKNO_WYGASLEGO_MIN = 10;
 const proby = {};   // numer telefonu -> { n: błędne próby, do: koniec blokady }
 const godzOd = t => new Date(t).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
 const kodAktywnyDla = numer => kod && !kod.uzyty && Date.now() <= kod.wygasa && kod.numer === numer;
@@ -100,8 +100,11 @@ function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
   const p = proby[numerTelefonu] = proby[numerTelefonu] || { n: 0, do: 0 };
   if (p.do > Date.now()) return { stan: 'blokada', do: godzOd(p.do), bank: BANK };
 
-  // prawdziwy kod, ale po czasie: to nie oszustwo, wystarczy nowy kod
-  if (kod && !kod.uzyty && wpisany === kod.kod && Date.now() > kod.wygasa) {
+  // prawdziwy kod, ale po czasie: to nie oszustwo, wystarczy nowy kod.
+  // Rozpoznajemy go tylko przez 10 minut po wygaśnięciu i tylko raz; potem liczy się jak błędny kod.
+  if (kod && !kod.uzyty && !kod.wygaslyPokazany && wpisany === kod.kod
+      && Date.now() > kod.wygasa && Date.now() <= kod.wygasa + OKNO_WYGASLEGO_MIN * 60000) {
+    kod.wygaslyPokazany = true;
     statusBanku('warn', 'alert', 'Klient wpisał kod po czasie. Utwórz nowy kod i podaj go jeszcze raz.');
     return { stan: 'wygasl', bank: BANK };
   }
