@@ -86,3 +86,6 @@
 .wf-sym{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
 .wf-sym button{font:inherit;font-size:15px;font-weight:600;padding:13px 14px;border-radius:14px;background:#fff;color:var(--ink);text-align:left}
 .wf-sym small{font-size:12.5px;line-height:1.4;opacity:.75}
+
+/* w pokazie osobę wybiera strona obok telefonu, więc menu „Dokumenty” ma tylko układ dokumentów */
+.lmenu .panel > .mh:nth-child(3),.lmenu .mo{display:none}

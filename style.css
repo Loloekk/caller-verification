@@ -22,7 +22,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .tabs::-webkit-scrollbar{display:none}
 .tab{display:flex;align-items:center;gap:6px;min-width:0;padding:8px 8px 8px 14px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink2);white-space:nowrap}
 .tab.on{background:var(--red-wash);color:var(--red-dark)}
-.tab .lbl{overflow:hidden;text-overflow:ellipsis}
+.tab .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tab:not(.on):hover{background:rgba(17,18,22,.05)}
+.col[hidden]{display:none}
 .ibtn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:var(--ink2);font-size:16px}
 .ibtn:hover{background:rgba(17,18,22,.06)}
 .tab.on .ibtn{color:var(--red-dark)}
@@ -41,7 +43,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ---------- układ sceny: strona banku | telefon ---------- */
-.stage{display:grid;grid-template-columns:minmax(0,1fr) auto;min-height:calc(100vh - 57px)}
+.stage{display:grid;grid-template-columns:minmax(420px,1fr) auto;min-height:calc(100vh - 57px)}
 .phoneside{display:flex;justify-content:center;align-items:flex-start;gap:28px;padding:24px 32px 40px}
 .col{display:flex;flex-direction:column;gap:12px}
 .label{font-size:13px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin:0 4px}

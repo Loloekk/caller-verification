@@ -106,16 +106,35 @@ function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
   return { stan: 'ok', godz, bank: BANK };
 }
 
-/* ---------- telefon w ramce ---------- */
-const ramka = $('#telefon');
-const doTelefonu = msg => ramka.contentWindow && ramka.contentWindow.postMessage(Object.assign({ zrodlo: 'bank' }, msg), '*');
+/* ---------- telefony w ramkach ---------- */
+const ramka = $('#telefon');      // Marta
+const ramka2 = $('#telefon2');    // Kacper, tylko w scenariuszu „Dwóch klientów”
+let scen = 1;
+const doTelefonu = (r, msg) => r.contentWindow && r.contentWindow.postMessage(Object.assign({ zrodlo: 'bank' }, msg), '*');
+const trybMarty = () => (scen === 2 ? 'in' : tryb);
 
 function ustawTryb(t, zTelefonu) {
   tryb = t;
   $$('.opt').forEach(o => { const on = o.dataset.mode === t; o.classList.toggle('on', on); o.setAttribute('aria-pressed', on); });
-  if (!zTelefonu) doTelefonu({ typ: 'wf-tryb', tryb: t });
+  if (!zTelefonu) doTelefonu(ramka, { typ: 'wf-tryb', tryb: trybMarty() });
 }
 $$('.opt').forEach(o => o.addEventListener('click', () => ustawTryb(o.dataset.mode)));
+
+function ustawScenariusz(n) {
+  scen = n === 2 ? 2 : 1;
+  $$('.tab').forEach(t => {
+    const on = +t.dataset.scen === scen;
+    t.classList.toggle('on', on);
+    const l = t.querySelector('.lbl'); if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+  });
+  $$('.tylko1').forEach(e => { e.hidden = scen !== 1; });
+  $$('.tylko2').forEach(e => { e.hidden = scen !== 2; });
+  if (scen === 2 && !ramka2.getAttribute('src')) ramka2.setAttribute('src', ramka2.dataset.src);
+  doTelefonu(ramka, { typ: 'wf-tryb', tryb: trybMarty() });
+  try { history.replaceState(null, '', scen === 2 ? '#dwoch-klientow' : '#jeden-klient'); } catch (e) {}
+  dopasuj();
+}
+$$('.tab .lbl').forEach(b => b.addEventListener('click', () => ustawScenariusz(+b.closest('.tab').dataset.scen)));
 
 function pokazOsobe(m) {
   $('#telLabel').textContent = `Telefon ${m.dopelniacz} · ${m.numerTxt}`;
@@ -130,30 +149,36 @@ function pokazOsobe(m) {
 }
 
 window.addEventListener('message', e => {
-  if (e.source !== ramka.contentWindow) return;
+  const r = e.source === ramka.contentWindow ? ramka : e.source === ramka2.contentWindow ? ramka2 : null;
+  if (!r) return;
   const m = e.data || {};
   if (m.zrodlo !== 'telefon') return;
-  if (m.typ === 'wf-gotowy') { pokazOsobe(m); doTelefonu({ typ: 'wf-tryb', tryb }); }
-  if (m.typ === 'wf-zalogowano') ustawTryb('in', true);
-  if (m.typ === 'wf-sprawdz') doTelefonu({ typ: 'wf-wynik', id: m.id, wynik: sprawdz(m.kod, m.numer, m.imie) });
+  if (m.typ === 'wf-gotowy') {
+    if (r === ramka) { pokazOsobe(m); doTelefonu(r, { typ: 'wf-tryb', tryb: trybMarty() }); }
+    else { $('#telLabel2').textContent = `Telefon ${m.dopelniacz} · ${m.numerTxt}`; doTelefonu(r, { typ: 'wf-tryb', tryb: 'in' }); }
+  }
+  if (m.typ === 'wf-zalogowano' && r === ramka && scen === 1) ustawTryb('in', true);
+  if (m.typ === 'wf-sprawdz') doTelefonu(r, { typ: 'wf-wynik', id: m.id, wynik: sprawdz(m.kod, m.numer, m.imie) });
 });
 
-/* ---------- zegar i skalowanie telefonu ---------- */
-function zegar() { $('#clock').textContent = hhmm(); }
+/* ---------- zegar i skalowanie telefonów ---------- */
+function zegar() { $$('.clock').forEach(c => { c.textContent = hhmm(); }); }
 zegar(); setInterval(zegar, 15000);
 
 function dopasuj() {
   const top = $('.topbar').offsetHeight;
   const vw = document.documentElement.clientWidth || innerWidth;
-  const s = vw <= 760
+  let s = vw <= 760
     ? Math.min(1, (Math.min(vw, 452) - 32 - 22) / 390)
     : Math.min(1, Math.max(0.55, (innerHeight - top - 110) / 844));
-  const wrap = $('#phoneWrap');
-  wrap.style.width = 390 * s + 'px'; wrap.style.height = 844 * s + 'px';
-  $('#phone').style.transform = `scale(${s})`;
+  if (scen === 2 && vw > 1180) s = Math.max(0.45, Math.min(s, (vw - 460 - 64 - 28 - 44) / 780));
+  $$('.phone-wrap').forEach(w => {
+    w.style.width = 390 * s + 'px'; w.style.height = 844 * s + 'px';
+    w.querySelector('.phone').style.transform = `scale(${s})`;
+  });
 }
 addEventListener('resize', dopasuj);
 if ('ResizeObserver' in window) new ResizeObserver(dopasuj).observe(document.documentElement);
 
 ustawTryb('in', true);
-dopasuj();
+ustawScenariusz(location.hash === '#dwoch-klientow' ? 2 : 1);

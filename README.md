@@ -15,7 +15,7 @@ Kod wydany dla innego numeru kończy się ostrzeżeniem o oszustwie. Dzięki tem
 ## Co jest w repozytorium
 
 - `index.html`, `style.css`, `app.js`: strona pokazu, czyli system banku po lewej i telefon po prawej.
-- `telefon/`: aplikacja mObywatel skopiowana z prototypu [mobywatel.ai](https://mobywatel.ai) i osadzona w ramce telefonu. Działa jak oryginał w trybie bez asystenta AI: dokumenty, układy, osoby, sprawy, scenariusze rozmów, znak mObywatela i strona wypożyczalni (`telefon/komputer.html`).
+- `telefon/`: aplikacja mObywatel skopiowana z prototypu [mobywatel.ai](https://mobywatel.ai) i osadzona w ramce telefonu. Działa jak oryginał w trybie bez asystenta AI: dokumenty, układy, sprawy, scenariusze rozmów, znak mObywatela i strona wypożyczalni (`telefon/komputer.html`).
 - `telefon/api-lokalne.js`: zastępuje serwer prototypu w przeglądarce, więc strona nie potrzebuje serwera.
 - `telefon/weryfikacja.js` i `telefon/weryfikacja.css`: nasz dodatek, czyli ekran logowania, „Sprawdź, kto dzwoni” i oznaczenia funkcji wymagających modelu.
 - `telefon/i18n/`: słowniki interfejsu z prototypu w postaci statycznych plików.
@@ -33,7 +33,12 @@ To strona statyczna bez zależności. Można ją opublikować na GitHub Pages al
 python3 -m http.server 8000
 ```
 
-Scenariusze: pozytywne sprawdzenie jest gotowe. Kolejne scenariusze i animacja przepływu danych są w przygotowaniu.
+## Scenariusze
+
+- **Jeden klient:** bank dzwoni do Marty. Telefon Marty można pokazać po zalogowaniu albo przed nim.
+- **Dwóch klientów:** zalogowane telefony Marty i Kacpra obok siebie. Kod wydany dla numeru Marty i wpisany u Kacpra kończy się ostrzeżeniem o oszustwie.
+
+Animacja przepływu danych jest w przygotowaniu.
 
 ## Zastrzeżenia
 

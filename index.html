@@ -15,9 +15,13 @@
     <span class="txt">Sprawdź, kto dzwoni</span>
   </div>
   <nav class="tabs" aria-label="Scenariusze">
-    <div class="tab on" aria-current="true">
-      <span class="lbl">Pozytywne sprawdzenie</span>
-      <button class="ibtn" data-pop="pop-s1" aria-label="Opis scenariusza Pozytywne sprawdzenie" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
+    <div class="tab on" data-scen="1">
+      <button type="button" class="lbl" aria-current="true">Jeden klient</button>
+      <button class="ibtn" data-pop="pop-s1" aria-label="Opis scenariusza Jeden klient" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
+    </div>
+    <div class="tab" data-scen="2">
+      <button type="button" class="lbl">Dwóch klientów</button>
+      <button class="ibtn" data-pop="pop-s2" aria-label="Opis scenariusza Dwóch klientów" aria-expanded="false"><svg class="i"><use href="#i-info"/></svg></button>
     </div>
   </nav>
   <button class="anim" id="animBtn"><svg class="i"><use href="#i-play"/></svg><span class="txt">Pokaż animację</span></button>
@@ -30,8 +34,8 @@
   <p>To prototyp na mObywatel Challenge. Osoby, numery i bank są fikcyjne.</p>
 </div>
 
-<div class="pop" id="pop-s1" role="dialog" aria-label="Scenariusz: Pozytywne sprawdzenie">
-  <h3>Pozytywne sprawdzenie</h3>
+<div class="pop" id="pop-s1" role="dialog" aria-label="Scenariusz: Jeden klient">
+  <h3>Jeden klient</h3>
   <p>Konsultantka banku dzwoni do Marty Kowalskiej. Marta nie wie, czy to naprawdę bank, więc sprawdza rozmowę w mObywatelu.</p>
   <ol>
     <li>W panelu banku kliknij „Utwórz kod”.</li>
@@ -39,6 +43,17 @@
     <li>Wpisz kod z panelu banku.</li>
   </ol>
   <p style="margin-top:8px">Spróbuj obu wariantów obok telefonu: Marta zalogowana i aplikacja przed zalogowaniem.</p>
+</div>
+
+<div class="pop" id="pop-s2" role="dialog" aria-label="Scenariusz: Dwóch klientów">
+  <h3>Dwóch klientów</h3>
+  <p>Obok siebie są telefony Marty i Kacpra, oba zalogowane. Bank tworzy kod dla numeru, pod który dzwoni.</p>
+  <ol>
+    <li>Utwórz kod dla numeru Marty: 600 100 200.</li>
+    <li>Wpisz go w telefonie Kacpra. Kacper zobaczy ostrzeżenie o oszustwie, bo kod wydano dla innego numeru.</li>
+    <li>Utwórz nowy kod i wpisz go w telefonie Marty. Rozmowa zostanie potwierdzona.</li>
+  </ol>
+  <p style="margin-top:8px">Tak wygląda próba przekazania komuś kodu od prawdziwego banku.</p>
 </div>
 
 <main class="stage">
@@ -80,24 +95,36 @@
   </section>
 
   <section class="phoneside">
-  <section class="col" aria-label="Telefon">
+  <section class="col tel" aria-label="Telefon Marty">
     <p class="label" id="telLabel">Telefon Marty · 600 100 200</p>
-    <div class="phone-wrap" id="phoneWrap">
-      <div class="phone" id="phone">
+    <div class="phone-wrap">
+      <div class="phone">
         <div class="island"></div>
-        <div class="sbar"><span id="clock">11:20</span><span class="ic"><svg class="i"><use href="#i-signal"/></svg><svg class="i"><use href="#i-wifi"/></svg><svg class="i" style="width:1.6em"><use href="#i-batt"/></svg></span></div>
-        <iframe id="telefon" class="tel-frame" src="telefon/index.html?osoba=marta&amp;uklad=stos" title="Aplikacja mObywatel na telefonie" allow="camera; microphone"></iframe>
+        <div class="sbar"><span class="clock">11:20</span><span class="ic"><svg class="i"><use href="#i-signal"/></svg><svg class="i"><use href="#i-wifi"/></svg><svg class="i" style="width:1.6em"><use href="#i-batt"/></svg></span></div>
+        <iframe id="telefon" class="tel-frame" src="telefon/index.html?osoba=marta&amp;uklad=stos" title="Aplikacja mObywatel na telefonie Marty" allow="camera; microphone"></iframe>
         <div class="homebar"></div>
       </div>
     </div>
   </section>
 
-  <section class="col who" aria-label="Stan aplikacji">
+  <section class="col tel tylko2" aria-label="Telefon Kacpra" hidden>
+    <p class="label" id="telLabel2">Telefon Kacpra · 603 456 789</p>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="island"></div>
+        <div class="sbar"><span class="clock">11:20</span><span class="ic"><svg class="i"><use href="#i-signal"/></svg><svg class="i"><use href="#i-wifi"/></svg><svg class="i" style="width:1.6em"><use href="#i-batt"/></svg></span></div>
+        <iframe id="telefon2" class="tel-frame" data-src="telefon/index.html?osoba=kacper&amp;uklad=stos" title="Aplikacja mObywatel na telefonie Kacpra" allow="camera; microphone"></iframe>
+        <div class="homebar"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="col who tylko1" aria-label="Stan aplikacji">
     <p class="label">Stan aplikacji</p>
     <button class="opt" data-mode="in"><span class="av" id="whoAv">MK</span><span><b id="whoName">Marta Kowalska</b><small id="whoIn">zalogowana w mObywatelu</small></span></button>
     <button class="opt" data-mode="out"><span class="av lock"><svg class="i"><use href="#i-lock"/></svg></span><span><b>Niezalogowany użytkownik</b><small id="whoOut">aplikacja wcześniej połączona z telefonem Marty</small></span></button>
     <div class="whocard" id="whoCard">Numer <b>600 100 200</b> jest potwierdzony SMS-em w profilu Marty. Sprawdzenie działa w obu stanach, bo serwer zna numer przypisany do tego telefonu.</div>
-    <div class="whocard">Osobę zmienisz w aplikacji: dotknij „Dokumenty” u góry ekranu. Funkcje wymagające modelu AI są oznaczone jako niewspierane.</div>
+    <div class="whocard">Funkcje wymagające modelu AI są oznaczone w aplikacji jako niewspierane.</div>
     <a class="whocard wlink" href="telefon/komputer.html" target="_blank" rel="noopener">Otwórz stronę wypożyczalni w nowej karcie, żeby przekazać jej dane znakiem mObywatela.</a>
   </section>
   </section>
