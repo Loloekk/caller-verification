@@ -28,7 +28,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .ibtn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:var(--ink2);font-size:16px}
 .ibtn:hover{background:rgba(17,18,22,.06)}
 .ibtn.lg{width:34px;height:34px;font-size:20px;border:1px solid var(--hair)}
-.jezyk{flex:none;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--ink)}
 .anim{display:flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;white-space:nowrap}
 .anim:hover{background:#2a2c33}
 

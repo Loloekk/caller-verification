@@ -6,6 +6,9 @@
  // język wynika z adresu: /de/aplikacja, /fr/komputer... (bez prefiksu = polski); ?lang= zostaje jako zapas
  let L=(location.pathname.match(/^\/([a-z]{2})\//)||[])[1]||null;
  if(!L||!LANGS.includes(L)){try{L=new URLSearchParams(location.search).get('lang')}catch(e){}}
+ // Sprawdź, kto dzwoni: bez ?lang= strona pokazu idzie za językiem przeglądarki, po polsku albo po angielsku
+ // (telefon w ramce dostaje język od strony w adresie)
+ if((!L||!LANGS.includes(L))&&window.top===window){const p=(navigator.languages&&navigator.languages[0])||navigator.language||'pl';L=/^pl\b/i.test(p)?'pl':'en'}
  if(!L||!LANGS.includes(L))L='pl';
  try{localStorage.setItem('mobLang',L)}catch(e){}
  window.LANG=L;document.documentElement.lang=L;

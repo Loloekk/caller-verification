@@ -22,7 +22,7 @@ A code issued for a different number ends with a fraud warning, and the bank is 
 
 - `index.html`, `style.css`, `app.js`: the demo page, with the bank's system on the left and the phone on the right. An intro window explaining the idea opens on load.
 - `anim.js`: the conversation animations.
-- `jezyk.js` and `i18n/en.js`: the PL/EN switch and the English dictionary for the demo page. Translation uses the prototype's own mechanism (`telefon/i18n.js`).
+- `jezyk.js` and `i18n/en.js`: the English version of the demo page and its dictionary. Translation uses the prototype's own mechanism (`telefon/i18n.js`).
 - `telefon/`: the mObywatel app copied from the [mobywatel.ai](https://mobywatel.ai) prototype and embedded in the phone frame. It works like the original without the AI assistant; features that need a model are marked as unsupported.
 - `telefon/api-lokalne.js`: replaces the prototype's server in the browser, so the page needs no backend.
 - `telefon/weryfikacja.js` and `telefon/weryfikacja.css`: our addition, the "Sprawdź, kto dzwoni" screen and its results.
@@ -36,7 +36,7 @@ It is a static page with no dependencies. Serve the folder with any static file 
 python3 -m http.server 8000
 ```
 
-The page opens in Polish. Use the EN button in the top right corner, or add `?lang=en` to the address, for the English version. The phone app then uses the prototype's English dictionary.
+The page follows the browser language: Polish for a Polish browser, English for any other. Add `?lang=en` or `?lang=pl` to the address to choose the language. In English, the phone app uses the prototype's English dictionary.
 
 ## Scenarios
 
