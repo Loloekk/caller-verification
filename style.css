@@ -180,6 +180,9 @@ body.animacja .tabs{pointer-events:none;opacity:.45}
 .anim-oszust b{font-size:44px;letter-spacing:.02em}
 .anim-oszust small{font-size:16px;opacity:.85}
 .dymek.oszust{background:var(--red-dark);color:#fff;border-bottom-left-radius:6px}
+.dymek.wniosek{background:var(--surface);color:var(--ink);border:2px dashed var(--red-dark);border-radius:14px}
+.dymek.wniosek small{color:var(--red-dark);opacity:1}
+.dymek.wniosek span{white-space:pre-line}
 .anim.bez{background:#9a5a00}
 .anim.bez:hover{background:#7f4a00}
 .anim.zle{background:#5a2d86}

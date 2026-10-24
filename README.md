@@ -45,7 +45,7 @@ Pięć przycisków animacji działa z każdej zakładki i na końcu włączają 
 - **Brak nazwiska:** bank zna tylko numer Marty, więc nie wpisuje imienia i nazwiska. Telefon potwierdza bank, ale prosi o upewnienie się, do kogo dzwoni.
 - **Błędne nazwisko:** bank ma w kartotece inną osobę, na przykład poprzedniego właściciela numeru. Telefon pokazuje, że bank szuka kogoś innego.
 - **Animacja oszustwa:** ta sama rozmowa, ale dzwoni oszust. Nie ma dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
-- **Man in the middle:** oszust zakłada konto na dane Marty i swój numer, a potem rozmawia jednocześnie z bankiem i z Martą. Prosi bank o kod i przekazuje go Marcie. Kod jest prawdziwy, ale bank wydał go dla numeru oszusta, więc mObywatel ostrzega Martę, a bank dostaje sygnał o możliwym oszustwie.
+- **Man in the middle:** oszust składa wniosek o konto na dane Marty i swój numer. Bank oddzwania na ten numer, a oszust w tym samym czasie dzwoni do Marty i powtarza jej słowa konsultantki. Prosi bank o kod i przekazuje go Marcie. Kod jest prawdziwy, ale bank wydał go dla numeru oszusta, więc mObywatel ostrzega Martę, a bank dostaje sygnał o możliwym oszustwie.
 
 ## Zastrzeżenia
 

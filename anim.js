@@ -7,7 +7,7 @@
    - Błędne nazwisko: bank ma w kartotece inną osobę, więc telefon mówi, że bank szuka kogoś innego.
    - Animacja oszustwa: dzwoni oszust podający się za bank. Rozmowa jest taka sama, ale oszust nie ma
      dostępu do systemu banku, więc wymyśla kod, a mObywatel ostrzega Martę.
-   - Man in the middle: oszust zakłada konto na dane Marty i swój numer, a potem rozmawia jednocześnie
+   - Man in the middle: oszust składa wniosek o konto na dane Marty i swój numer, a gdy bank oddzwania, rozmawia jednocześnie
      z bankiem i z Martą. Przekazuje Marcie prawdziwy kod z banku, ale kod wydano dla numeru oszusta.
    Wszystkie działają z każdej zakładki, na koniec włączają „Jeden klient” i przywracają stan początkowy.
    Korzysta z funkcji i zmiennych z app.js. */
@@ -16,7 +16,7 @@
   const LOT_MS = 1400, POSTOJ_MS = 2400;   // dymki lecą szybko, a czyta się je, gdy stoją u odbiorcy
   const KONIEC_MS = 6000;                  // ostatni dymek i wynik w telefonie zostają na ekranie przed powrotem do stanu początkowego
   const NAZWY = { bank: 'Pozytywna animacja', beznazwiska: 'Brak nazwiska', zlenazwisko: 'Błędne nazwisko', oszust: 'Animacja oszustwa', mitm: 'Man in the middle' };
-  const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta' };
+  const PODPISY = { bank: 'Konsultantka banku', oszust: 'Oszust', marta: 'Marta', wniosek: 'Oszust · wniosek o założenie konta' };
   const przyciski = [$('#animBtn'), $('#animBezBtn'), $('#animZleBtn'), $('#animOszustBtn'), $('#animMitmBtn')];
   let trwa = false, przerwano = false, stop = null, warstwa = null, aktywny = null, posrednik = null;
 
@@ -150,11 +150,14 @@
     await dymek('marta', 'mObywatel ostrzega, że to może być oszustwo. Kończę rozmowę.', null, true);
   }
 
-  // oszust zakłada konto na dane Marty i swój numer, dzwoni do Marty jako bank i przekazuje jej kod z banku
+  // oszust składa wniosek o konto na dane Marty i swój numer, a gdy bank oddzwania, dzwoni do Marty jako bank,
+  // powtarza jej słowa konsultantki i przekazuje kod z banku
   async function rozmowaPosrednika() {
     const doBanku = ['posrednik', 'dzwoniacy'], doMarty = ['posrednik', 'marta'];
-    await dymek('oszust', `Dzień dobry, chcę założyć konto. Nazywam się ${OSOBA}, mój numer to ${NUMER_OSZUSTA}.`, doBanku);
-    await dymek('oszust', 'Dzień dobry, Anna Wiśniewska z banku. Dzwonię w sprawie Pani wniosku o konto.', doMarty);
+    const powitanie = 'Dzień dobry, Anna Wiśniewska z banku. Chciałabym się z Panią skontaktować w związku z założeniem konta.';
+    await dymek('wniosek', `Imię i nazwisko: ${OSOBA}\nTelefon: ${NUMER_OSZUSTA}`, doBanku);
+    await dymek('bank', powitanie, ['dzwoniacy', 'posrednik']);
+    await dymek('oszust', powitanie, doMarty);
     await dymek('marta', 'Poproszę kod do zweryfikowania banku.', ['marta', 'posrednik']);
     await dymek('oszust', 'Poproszę kod do zweryfikowania banku.', doBanku);
     await wpisz($('#num'), NUMER_OSZUSTA);   // bank tworzy kod dla numeru, z którym rozmawia, czyli numeru oszusta
