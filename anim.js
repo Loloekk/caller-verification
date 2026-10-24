@@ -186,6 +186,7 @@
     przycisk.querySelector('.txt').textContent = 'Zatrzymaj animację';
     przycisk.classList.add('gra'); przycisk.title = 'Zatrzymaj animację'; przycisk.setAttribute('aria-label', 'Zatrzymaj animację');
     przyciski.forEach(p => { if (p !== przycisk) p.disabled = true; });
+    dopasujPasek();
     typeof zamknijPopy === 'function' && zamknijPopy();
     ustawScenariusz(1);
     document.body.classList.add('animacja');
@@ -229,6 +230,7 @@
       p.disabled = false; p.classList.remove('gra');
       p.querySelector('.txt').textContent = n; p.title = n; p.setAttribute('aria-label', n);
     });
+    dopasujPasek();
     trwa = false; aktywny = null;
     ustawTryb('in');
     ustawScenariusz(1);

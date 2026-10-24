@@ -211,5 +211,17 @@ function dopasuj() {
 addEventListener('resize', dopasuj);
 if ('ResizeObserver' in window) new ResizeObserver(dopasuj).observe(document.documentElement);
 
+// przyciski animacji mają napisy, dopóki mieszczą się obok zakładek; inaczej zostają same ikony
+function dopasujPasek() {
+  const zakladki = $('.tabs');
+  document.body.classList.remove('ikony');
+  const uciete = zakladki.scrollWidth > zakladki.clientWidth + 1 || [...zakladki.querySelectorAll('.lbl')].some(l => l.scrollWidth > l.clientWidth);
+  if (uciete) document.body.classList.add('ikony');
+}
+addEventListener('resize', dopasujPasek);
+if ('ResizeObserver' in window) new ResizeObserver(dopasujPasek).observe($('.topbar'));
+dopasujPasek();
+document.fonts && document.fonts.ready.then(dopasujPasek);
+
 ustawTryb('in', true);
 ustawScenariusz(location.hash === '#dwoch-klientow' ? 2 : 1);
