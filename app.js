@@ -2,7 +2,7 @@
 
 /* ---------- dane pokazu (fikcyjne) ---------- */
 const WLASCICIEL = { imie: 'Marta Kowalska', numer: '600100200' };
-const BANK = { nazwa: 'Bank Horyzont', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
+const BANK = { nazwa: 'Bank', pracownik: 'Anna Wiśniewska', rola: 'Konsultantka', infolinia: '800 100 100' };
 const WAZNOSC_S = 120;
 
 const $ = s => document.querySelector(s);
@@ -238,7 +238,7 @@ function wynik(w) {
   if (w.stan === 'ok') h = `
     <div class="big ok">${ico('check')}</div>
     <h1>Rozmowa potwierdzona</h1>
-    <p class="lead">To naprawdę ${BANK.nazwa} i dzwoni właśnie do Ciebie.</p>
+    <p class="lead">To naprawdę bank i dzwoni właśnie do Ciebie.</p>
     ${wiersze([['Dzwoni', BANK.nazwa], [BANK.rola, BANK.pracownik], ['Twój numer', 'zgadza się'], ['Sprawdzono', 'dziś, ' + w.godz]])}
     ${zapis}
     <div class="warnline">${ico('shield')}<span>Bank nie dostał od mObywatela żadnych Twoich danych. Wie tylko, że rozmowa została potwierdzona.</span></div>
@@ -251,12 +251,12 @@ function wynik(w) {
   else h = `
     <div class="big warn">${ico('user')}</div>
     <h1>Bank szuka innej osoby</h1>
-    <p class="lead">Dzwoni naprawdę ${BANK.nazwa}, ale do poprzedniego właściciela Twojego numeru. Nie podawaj swoich danych.</p>
+    <p class="lead">Dzwoni naprawdę bank, ale do poprzedniego właściciela Twojego numeru. Nie podawaj swoich danych.</p>
     ${wiersze([['Dzwoni', BANK.nazwa], [BANK.rola, BANK.pracownik]])}
     <div class="btns"><button class="btn dark" type="button" id="doneBtn">Gotowe</button></div>`;
   sheet().querySelector('.sh-body').outerHTML = `<div class="sh-body result">${h}</div>`;
   $('#doneBtn').onclick = zamknijArkusz;
-  const call = $('#callBtn'); if (call) call.onclick = () => toast(`Rozłączam i dzwonię na infolinię: ${BANK.nazwa}, ${BANK.infolinia}.`);
+  const call = $('#callBtn'); if (call) call.onclick = () => toast(`Rozłączam i dzwonię na infolinię banku: ${BANK.infolinia}.`);
   const rep = $('#reportBtn'); if (rep) rep.onclick = () => toast('Zgłoszenie trafi do CERT Polska i do banku.');
 }
 
