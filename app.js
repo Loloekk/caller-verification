@@ -138,22 +138,57 @@ function ekranLogowania() {
   $('#checkBtn').onclick = otworzKod;
 }
 
+const ZNAK_BITY = '11111010110011101001101100100111';
+function znakSvg() {
+  let d = '';
+  for (let i = 0; i < 32; i++) {
+    if (ZNAK_BITY[i] !== '1') continue;
+    const a = -Math.PI / 2 + i / 32 * Math.PI * 2;
+    d += `<circle cx="${(Math.cos(a) * 37).toFixed(2)}" cy="${(Math.sin(a) * 37).toFixed(2)}" r="2.9" fill="#dc143c"/>`;
+  }
+  return `<svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="49" fill="#fff"/>${d}<rect x="-17" y="-17" width="34" height="34" rx="8" fill="#dc143c"/><path d="M0 -10 -7.5 -7v5.5c0 4.6 3.2 8.6 7.5 10.2 4.3-1.6 7.5-5.6 7.5-10.2V-7z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></svg>`;
+}
+const SYLWETKA = `<svg class="car" viewBox="0 0 220 90" aria-hidden="true"><path d="M14 66c0-9 5-14 14-16l30-6 26-20c6-4 12-6 20-6h40c9 0 16 3 22 9l17 17 18 3c8 2 13 8 13 16v6c0 3-2 5-5 5H19c-3 0-5-2-5-5z" fill="#eef1f5"/><path d="M92 26c4-3 8-4 13-4h38c6 0 11 2 15 6l13 14H72z" fill="#9fb0c4"/><circle cx="58" cy="72" r="13" fill="#2b2f36"/><circle cx="58" cy="72" r="6" fill="#c9ced6"/><circle cx="168" cy="72" r="13" fill="#2b2f36"/><circle cx="168" cy="72" r="6" fill="#c9ced6"/></svg>`;
+const POSTAC = `<svg viewBox="0 0 86 112" aria-hidden="true"><circle cx="43" cy="44" r="20" fill="#b8c3d3"/><path d="M6 112c2-24 17-38 37-38s35 14 37 38z" fill="#b8c3d3"/></svg>`;
+
 function ekranDomowy() {
   ekran().innerHTML = `
-  <div class="scr">
-    <div class="top"><div class="mini">${ico('shield')}</div><h2>Dokumenty</h2><span class="ibtn" aria-hidden="true" style="font-size:22px">${ico('bell')}</span></div>
-    <div class="cards" aria-hidden="true">
-      <div class="dcard c1"><b>Moje pojazdy</b><span class="ln">Toyota Corolla · WX 4521K</span></div>
-      <div class="dcard c2"><b>mPrawo jazdy</b><span class="ln">Kategoria B</span></div>
-      <div class="dcard c3"><b>mDowód</b><div class="row"><div class="ph">MK</div><div><div class="nm">MARTA KOWALSKA</div><div class="ln">Dowód ważny do 20.05.2031</div></div></div></div>
+  <div class="home2">
+    <div class="htop">
+      <span class="hemb">${ico('shield')}</span>
+      <span class="htitle">Dokumenty${ico('down')}</span>
+      <span class="sp"></span>
+      <span class="hico" aria-hidden="true">${ico('scan')}</span>
+      <span class="hico" aria-hidden="true">${ico('mail')}<i class="dot"></i></span>
     </div>
-    <button class="tile" type="button" id="checkBtn"><span class="ico">${ico('phone')}</span><span><b>Sprawdź, kto dzwoni</b><small>Bank albo urząd podał Ci kod w rozmowie</small></span><span class="chev">${ico('chev')}</span></button>
-    <div class="remind" aria-hidden="true"><span class="dot">3</span><span>Pismo z Urzędu Skarbowego · i 2 inne sprawy</span></div>
-    <div class="tabbar" aria-hidden="true">
-      <span>${ico('home')}Pulpit</span><span class="on">${ico('docs')}Dokumenty</span><span>${ico('grid')}Usługi</span><span>${ico('qr')}Kod QR</span><span>${ico('dots')}Więcej</span>
+    <div class="card2 k-poj" style="top:112px" aria-hidden="true"><span class="ttl">Moje pojazdy</span><span class="badge">${ico('shield')}</span>${SYLWETKA}</div>
+    <div class="card2 k-pj" style="top:188px" aria-hidden="true"><span class="ttl">mPrawo jazdy</span><span class="badge pl">PL</span></div>
+    <div class="card2 k-kdr" style="top:264px" aria-hidden="true"><span class="ttl">Karta Dużej Rodziny</span><span class="badge sq">${ico('family')}</span></div>
+    <div class="card2 k-dow" style="top:340px">
+      <span class="ttl">mDowód</span>
+      <span class="znak2">${znakSvg()}</span>
+      <div class="ov2">
+        <span class="ph2">${POSTAC}</span>
+        <div class="col2">
+          <span class="nm2" id="nm2">MARTA</span>
+          <div class="dl2" id="dl2" hidden>
+            <span><small>PESEL</small><b>91071427765</b></span><span><small>Data urodzenia</small><b>14.07.1991</b></span>
+            <span><small>Dowód osobisty</small><b>ABC 123456</b></span><span><small>Dowód ważny do</small><b>20.05.2031</b></span>
+          </div>
+          <button class="reveal2" type="button" id="revealBtn">${ico('eye')}Pokaż dane</button>
+        </div>
+      </div>
     </div>
+    <button class="rsum2 kto" type="button" id="checkBtn" style="top:610px"><span class="ki">${ico('phone')}</span><span class="tx"><b>Sprawdź, kto dzwoni</b><small>Bank albo urząd podał Ci kod w rozmowie</small></span>${ico('chev')}</button>
+    <button class="rsum2" type="button" id="remBtn" style="top:686px"><span class="rdot2">3</span><span class="tx"><b>Pismo z Urzędu Skarbowego</b><small><em>Odpowiedź do 26.10</em> · i 2 inne sprawy</small></span>${ico('chev')}</button>
+    <div class="bar2" id="barBtn" role="button" tabindex="0" style="top:762px"><span class="ph3">Co chcesz załatwić?</span><span class="ib2">${ico('mic')}</span><span class="send2">${ico('up')}</span></div>
   </div>`;
   $('#checkBtn').onclick = otworzKod;
+  $('#revealBtn').onclick = () => { $('#nm2').textContent = 'MARTA KOWALSKA'; $('#dl2').hidden = false; $('#revealBtn').remove(); };
+  const pozaPokazem = () => toast('Asystent i lista spraw nie są częścią tego pokazu.');
+  $('#remBtn').onclick = pozaPokazem;
+  $('#barBtn').onclick = pozaPokazem;
+  $('#barBtn').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pozaPokazem(); } };
 }
 
 function pokazEkran() { tryb === 'in' ? ekranDomowy() : ekranLogowania(); }
