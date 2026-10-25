@@ -41,6 +41,16 @@
   }
   const telefonMarty = () => document.querySelector('#telefon').closest('.phone-wrap');
 
+  // na wąskim ekranie przewijamy stronę za akcją: do miejsca, w które leci dymek, do formularza albo do telefonu.
+  // Gdy wszystko jest już widoczne (szeroki ekran), strona stoi.
+  function pokaz(gora, dol) {
+    const pasek = $('.topbar').offsetHeight, widok = innerHeight - pasek, od = scrollY + pasek;
+    if (gora >= od && dol <= od + widok) return;
+    const cel = dol - gora <= widok ? (gora + dol) / 2 - widok / 2 - pasek : gora - pasek - 12;
+    window.scrollTo({ top: Math.max(0, cel), behavior: bezRuchu() ? 'auto' : 'smooth' });
+  }
+  const pokazElement = el => { const p = pozycja(el); pokaz(p.t - 12, p.t + p.h + 12); };
+
   // telefon oszusta pośrodku: między stroną banku a telefonem Marty, a na wąskim ekranie nad telefonem Marty
   function telefonOszusta() {
     const b = pozycja($('.bankside')), t = pozycja(telefonMarty());
@@ -68,6 +78,9 @@
     const m = miejsca(szer, wys);
     const [skad, dokad] = trasa || (kto === 'marta' ? ['marta', 'dzwoniacy'] : ['dzwoniacy', 'marta']);
     const a = m[skad], b = m[dokad];
+    // widać cały lot, jeśli się mieści; inaczej miejsce, w którym dymek wyląduje
+    const lotG = Math.min(a.y, b.y) - wys / 2 - 12, lotD = Math.max(a.y, b.y) + wys / 2 + 12;
+    if (lotD - lotG <= innerHeight - $('.topbar').offsetHeight) pokaz(lotG, lotD); else pokaz(b.y - wys / 2 - 12, b.y + wys / 2 + 12);
     const cx = (a.x + b.x) / 2, cy = Math.min(a.y, b.y) - 90;
     const ustaw = u => {
       const x = (1 - u) * (1 - u) * a.x + 2 * (1 - u) * u * cx + u * u * b.x;
@@ -98,6 +111,7 @@
 
   // konsultantka wpisuje dane w pustym formularzu
   async function wpisz(pole, tekst) {
+    pokazElement($('.bform'));
     pole.classList.add('anim-pisze'); pole.value = '';
     for (const z of tekst) { pole.value += z; await czekaj(z === ' ' ? 60 : 120); }
     await czekaj(300);
@@ -106,6 +120,7 @@
 
   // Marta stuka w „Sprawdź, kto dzwoni”, wpisuje kod i wysyła go do sprawdzenia
   async function sprawdzWTelefonie(kodTxt) {
+    pokazElement(telefonMarty());
     doTelefonu(ramka, { typ: 'wf-demo', krok: 'otworz' });   // telefon pokazuje stuknięcie w „Sprawdź, kto dzwoni”
     await czekaj(1500);
     for (const c of kodTxt.replace(/\s/g, '')) { doTelefonu(ramka, { typ: 'wf-demo', krok: 'cyfra', c }); await czekaj(350); }

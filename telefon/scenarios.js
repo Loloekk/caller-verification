@@ -209,8 +209,9 @@ $('#newBtn').onclick=()=>{closeHist();newConv();input.focus()};
 $('#hmenu .scrim').onclick=closeHist;
 $('#hnew').onclick=()=>{closeHist();newConv();input.focus()};
 $('#homeBtn').onclick=()=>{
- // na ekranie głównym orzełek prowadzi na stronę startową (z prefiksem języka, np. /de/)
- if(!app.classList.contains('chatting')&&!$('#detail').classList.contains('on')){const m=location.pathname.match(/^\/([a-z]{2})\//);location.href=m?'/'+m[1]+'/':'/';return}
+ // Sprawdź, kto dzwoni: aplikacja siedzi w ramce telefonu, więc na ekranie głównym orzełek tylko przewija karty na początek
+ // (w prototypie prowadził na stronę startową, która tutaj jest stroną pokazu)
+ if(!app.classList.contains('chatting')&&!$('#detail').classList.contains('on')){$('#tiles').scrollTo({left:0,behavior:'smooth'});return}
  $('#detail').classList.remove('on');exitChat();$('#tiles').scrollTo({left:0,behavior:'smooth'})};
 $('#mailBtn').onclick=()=>{closeHist();startTopic('Co mam w skrzynce?')};
 $('#bellBtn').onclick=()=>{closeHist();startTopic('Co mam do załatwienia?')};

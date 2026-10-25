@@ -134,6 +134,11 @@ function sprawdz(wpisany, numerTelefonu, imieWlasciciela) {
   if (kod && !kod.uzyty && !kod.wygaslyPokazany && wpisany === kod.kod
       && Date.now() > kod.wygasa && Date.now() <= kod.wygasa + OKNO_WYGASLEGO_MIN * 60000) {
     kod.wygaslyPokazany = true;
+    // kod wydany dla innego numeru to nadal sygnał oszustwa, a nie zwykłe spóźnienie
+    if (kod.numer !== numerTelefonu) {
+      statusBanku('bad', 'alert', 'Kod wpisano na innym numerze niż ten, pod który dzwonisz. Możliwe oszustwo, sprawa trafi do weryfikacji.');
+      return { stan: 'numer', godz: hhmm(), bank: BANK };
+    }
     statusBanku('warn', 'alert', 'Klient wpisał kod po czasie. Utwórz nowy kod i podaj go jeszcze raz.');
     return { stan: 'wygasl', bank: BANK };
   }
